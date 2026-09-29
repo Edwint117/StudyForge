@@ -1,0 +1,23 @@
+{
+  "valid": [
+    {"type": "mcq", "stem_md": "A test is 99% sensitive and 95% specific; prevalence is 1%. Which is closest to $P(D\\mid +)$?",
+     "choices": [{"id": "A", "text_md": "0.99", "correct": false}, {"id": "B", "text_md": "0.17", "correct": true}, {"id": "C", "text_md": "0.50", "correct": false}, {"id": "D", "text_md": "0.05", "correct": false}],
+     "answer_kind": "text", "answer_key": "B", "points": 4, "difficulty": 3, "concept_names": ["Bayes' theorem"], "source_chunk_ids": ["ch_12"]},
+    {"type": "numeric", "stem_md": "A ball is dropped from 20 m. Ignoring drag and using $g = 9.81\\,\\mathrm{m/s^2}$, how long until it lands?",
+     "answer_kind": "numeric", "answer_key": "2.02 s", "points": 5, "difficulty": 2, "source_chunk_ids": ["ch_3"]},
+    {"type": "code", "stem_md": "Write a program that reads n and prints n!.", "answer_kind": "code", "answer_key": "",
+     "reference_solution": "import math\nprint(math.factorial(int(input())))",
+     "tests": [{"stdin": "0\n", "expected_stdout": "1\n"}, {"stdin": "5\n", "expected_stdout": "120\n"}, {"stdin": "10\n", "expected_stdout": "3628800\n"}],
+     "points": 10, "difficulty": 2, "source_chunk_ids": ["ch_40"]},
+    {"type": "multi_step", "stem_md": "Differentiate $f(x)=x^2\\sin x$ and evaluate at $x=0$.", "answer_kind": "sympy", "answer_key": "0",
+     "steps": [{"prompt_md": "Find $f'(x)$", "expected": "2x\\sin x + x^2\\cos x", "answer_kind": "sympy", "points": 3}, {"prompt_md": "Evaluate $f'(0)$", "expected": "0", "answer_kind": "numeric", "points": 1}],
+     "points": 4, "difficulty": 3, "source_chunk_ids": ["ch_22"]}
+  ],
+  "invalid": [
+    {"_why": "mcq without a correct choice", "output": {"type": "mcq", "stem_md": "Q", "choices": [{"id": "A", "text_md": "1", "correct": false}, {"id": "B", "text_md": "2", "correct": false}], "answer_kind": "text", "answer_key": "A", "points": 1, "difficulty": 1, "source_chunk_ids": ["c"]}},
+    {"_why": "code question without tests", "output": {"type": "code", "stem_md": "Q", "answer_kind": "code", "answer_key": "", "reference_solution": "print(1)", "points": 1, "difficulty": 1, "source_chunk_ids": ["c"]}},
+    {"_why": "difficulty out of range", "output": {"type": "short", "stem_md": "Q", "answer_kind": "text", "answer_key": "a", "points": 1, "difficulty": 7, "source_chunk_ids": ["c"]}},
+    {"_why": "no source citation", "output": {"type": "short", "stem_md": "Q", "answer_kind": "text", "answer_key": "a", "points": 1, "difficulty": 2, "source_chunk_ids": []}},
+    {"_why": "multi_step without steps", "output": {"type": "multi_step", "stem_md": "Q", "answer_kind": "numeric", "answer_key": "1", "points": 1, "difficulty": 2, "source_chunk_ids": ["c"]}}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "valid": [
+    {"covered": ["kp1"], "missing": ["kp3"], "incorrect": ["kp2"]},
+    {"covered": [], "missing": ["kp1", "kp2"], "incorrect": []}
+  ],
+  "invalid": [
+    {"_why": "key point in two lists", "output": {"covered": ["kp1"], "missing": ["kp1"], "incorrect": []}},
+    {"_why": "list of non-strings", "output": {"covered": [1], "missing": [], "incorrect": []}}
+  ]
+}

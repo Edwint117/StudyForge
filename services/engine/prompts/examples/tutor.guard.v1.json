@@ -1,0 +1,10 @@
+{
+  "valid": [
+    {"states_final_answer": true, "evidence": "So the probability is about 0.17."},
+    {"states_final_answer": false, "evidence": null}
+  ],
+  "invalid": [
+    {"_why": "verdict must be boolean", "output": {"states_final_answer": "no"}},
+    {"_why": "extra property", "output": {"states_final_answer": false, "score": 0}}
+  ]
+}

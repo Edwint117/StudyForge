@@ -1,0 +1,103 @@
+{
+  "$defs": {
+    "IncorrectStatement": {
+      "additionalProperties": false,
+      "properties": {
+        "citation": {
+          "type": "string"
+        },
+        "claim": {
+          "type": "string"
+        },
+        "correction": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "claim",
+        "correction",
+        "citation"
+      ],
+      "type": "object"
+    },
+    "PointJudgement": {
+      "additionalProperties": false,
+      "properties": {
+        "covered": {
+          "type": "boolean"
+        },
+        "evidence_quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "key_point_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key_point_id",
+        "covered"
+      ],
+      "type": "object"
+    },
+    "TermUse": {
+      "additionalProperties": false,
+      "properties": {
+        "explained": {
+          "type": "boolean"
+        },
+        "term": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "term",
+        "explained"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "errors": {
+      "items": {
+        "$ref": "#/$defs/IncorrectStatement"
+      },
+      "type": "array"
+    },
+    "followups": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "judgements": {
+      "items": {
+        "$ref": "#/$defs/PointJudgement"
+      },
+      "type": "array"
+    },
+    "missing_steps": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "terms": {
+      "items": {
+        "$ref": "#/$defs/TermUse"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "judgements"
+  ],
+  "type": "object"
+}

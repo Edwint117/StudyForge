@@ -1,0 +1,23 @@
+{
+  "additionalProperties": false,
+  "description": "Matches the ``OcrEngine.recognize`` contract (doc 06 §3).",
+  "properties": {
+    "confidence": {
+      "type": "number"
+    },
+    "latex": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "text_md": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "text_md",
+    "confidence"
+  ],
+  "type": "object"
+}

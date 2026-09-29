@@ -1,0 +1,390 @@
+{
+  "$defs": {
+    "ExtractedExam": {
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "$ref": "#/$defs/Sourced_date_"
+        },
+        "duration_min": {
+          "$ref": "#/$defs/Sourced_int_"
+        },
+        "kind": {
+          "$ref": "#/$defs/Sourced_Literal__quiz____midterm____final____other___"
+        },
+        "location": {
+          "$ref": "#/$defs/Sourced_str_"
+        },
+        "start_time": {
+          "$ref": "#/$defs/Sourced_time_"
+        },
+        "title": {
+          "$ref": "#/$defs/Sourced_str_"
+        },
+        "topics": {
+          "$ref": "#/$defs/Sourced_list_str__"
+        },
+        "weight_pct": {
+          "$ref": "#/$defs/Sourced_float_"
+        }
+      },
+      "type": "object"
+    },
+    "GradeComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/Sourced_str_"
+        },
+        "weight_pct": {
+          "$ref": "#/$defs/Sourced_float_"
+        }
+      },
+      "required": [
+        "name",
+        "weight_pct"
+      ],
+      "type": "object"
+    },
+    "Policies": {
+      "additionalProperties": false,
+      "properties": {
+        "arrival": {
+          "$ref": "#/$defs/Sourced_str_"
+        },
+        "calculator": {
+          "$ref": "#/$defs/Sourced_str_"
+        },
+        "formula_sheet": {
+          "$ref": "#/$defs/Sourced_str_"
+        },
+        "id_required": {
+          "$ref": "#/$defs/Sourced_bool_"
+        },
+        "scratch_paper": {
+          "$ref": "#/$defs/Sourced_str_"
+        }
+      },
+      "type": "object"
+    },
+    "Sourced_Literal__quiz____midterm____final____other___": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "type": "number"
+        },
+        "span": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "enum": [
+                "quiz",
+                "midterm",
+                "final",
+                "other"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Sourced_bool_": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "type": "number"
+        },
+        "span": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Sourced_date_": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "type": "number"
+        },
+        "span": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Sourced_float_": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "type": "number"
+        },
+        "span": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Sourced_int_": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "type": "number"
+        },
+        "span": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Sourced_list_str__": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "type": "number"
+        },
+        "span": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Sourced_str_": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "type": "number"
+        },
+        "span": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Sourced_time_": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "type": "number"
+        },
+        "span": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "format": "time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "WeekTopics": {
+      "additionalProperties": false,
+      "properties": {
+        "start_date": {
+          "$ref": "#/$defs/Sourced_date_"
+        },
+        "topics": {
+          "$ref": "#/$defs/Sourced_list_str__"
+        },
+        "week": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "week"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "course_code": {
+      "$ref": "#/$defs/Sourced_str_"
+    },
+    "course_title": {
+      "$ref": "#/$defs/Sourced_str_"
+    },
+    "exams": {
+      "items": {
+        "$ref": "#/$defs/ExtractedExam"
+      },
+      "type": "array"
+    },
+    "grading": {
+      "items": {
+        "$ref": "#/$defs/GradeComponent"
+      },
+      "type": "array"
+    },
+    "policies": {
+      "$ref": "#/$defs/Policies"
+    },
+    "schedule": {
+      "items": {
+        "$ref": "#/$defs/WeekTopics"
+      },
+      "type": "array"
+    },
+    "term": {
+      "$ref": "#/$defs/Sourced_str_"
+    }
+  },
+  "type": "object"
+}

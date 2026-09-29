@@ -1,0 +1,69 @@
+{
+  "$defs": {
+    "CriterionScore": {
+      "additionalProperties": false,
+      "properties": {
+        "awarded": {
+          "type": "number"
+        },
+        "citation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "criterion_id": {
+          "type": "string"
+        },
+        "error_class": {
+          "anyOf": [
+            {
+              "enum": [
+                "conceptual",
+                "formula_recall",
+                "calculation_slip",
+                "incomplete",
+                "misread_question",
+                "notation"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "awarded"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The structured output the rubric grader must return (validated with the model's JSON schema too).",
+  "properties": {
+    "confidence": {
+      "type": "number"
+    },
+    "scores": {
+      "items": {
+        "$ref": "#/$defs/CriterionScore"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "scores",
+    "confidence"
+  ],
+  "type": "object"
+}

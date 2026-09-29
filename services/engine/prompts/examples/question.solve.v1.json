@@ -1,0 +1,10 @@
+{
+  "valid": [
+    {"final_answer": "2.02 s", "work_md": "$t=\\sqrt{2h/g}=\\sqrt{40/9.81}\\approx 2.02$ s", "confidence": 0.97, "issues": []},
+    {"final_answer": "", "work_md": "The stem never gives the mass.", "confidence": 0.2, "issues": ["missing_information"]}
+  ],
+  "invalid": [
+    {"_why": "unknown issue code", "output": {"final_answer": "1", "confidence": 0.5, "issues": ["too_hard"]}},
+    {"_why": "confidence missing", "output": {"final_answer": "1"}}
+  ]
+}

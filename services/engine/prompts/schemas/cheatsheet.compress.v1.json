@@ -1,0 +1,33 @@
+{
+  "$defs": {
+    "ShortVariant": {
+      "additionalProperties": false,
+      "properties": {
+        "item_id": {
+          "type": "string"
+        },
+        "short_md": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_id",
+        "short_md"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/ShortVariant"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "items"
+  ],
+  "type": "object"
+}

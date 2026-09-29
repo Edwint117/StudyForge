@@ -1,0 +1,31 @@
+{
+  "valid": [
+    {
+      "course_code": {"value": "STAT 201", "confidence": 0.98, "span": [0, 8]},
+      "course_title": {"value": "Probability", "confidence": 0.95, "span": [11, 22]},
+      "term": {"value": "Fall 2026", "confidence": 0.9, "span": [25, 34]},
+      "exams": [
+        {
+          "kind": {"value": "midterm", "confidence": 0.95, "span": [120, 127]},
+          "title": {"value": "Midterm 1", "confidence": 0.95, "span": [120, 129]},
+          "date": {"value": "2026-10-14", "confidence": 0.9, "span": [132, 144]},
+          "start_time": {"value": "18:30:00", "confidence": 0.8, "span": [148, 155]},
+          "duration_min": {"value": 90, "confidence": 0.85, "span": [157, 167]},
+          "location": {"value": null, "confidence": 0, "span": null},
+          "weight_pct": {"value": 25, "confidence": 0.95, "span": [170, 173]},
+          "topics": {"value": ["Counting", "Conditional probability"], "confidence": 0.7, "span": [180, 220]}
+        }
+      ],
+      "grading": [{"name": {"value": "Midterm 1", "confidence": 0.9, "span": [300, 309]}, "weight_pct": {"value": 25, "confidence": 0.9, "span": [311, 314]}}],
+      "schedule": [{"week": 1, "start_date": {"value": "2026-09-08", "confidence": 0.8, "span": [400, 410]}, "topics": {"value": ["Sample spaces"], "confidence": 0.8, "span": [412, 425]}}],
+      "policies": {"calculator": {"value": "non-graphing only", "confidence": 0.85, "span": [500, 517]}, "id_required": {"value": true, "confidence": 0.9, "span": [520, 540]}}
+    },
+    {"exams": [], "grading": []}
+  ],
+  "invalid": [
+    {"_why": "confidence above 1", "output": {"course_code": {"value": "X", "confidence": 2, "span": null}}},
+    {"_why": "date not ISO", "output": {"exams": [{"date": {"value": "Oct 14", "confidence": 0.5, "span": [0, 6]}}]}},
+    {"_why": "week out of range", "output": {"schedule": [{"week": 0}]}},
+    {"_why": "unknown exam kind", "output": {"exams": [{"kind": {"value": "oral", "confidence": 0.5, "span": [0, 4]}}]}}
+  ]
+}

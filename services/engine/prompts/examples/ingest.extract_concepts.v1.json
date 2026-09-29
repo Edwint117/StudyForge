@@ -1,0 +1,20 @@
+{
+  "valid": [
+    {"concepts": [
+      {"temp_id": "t1", "name": "conditional probability", "kind": "definition", "summary_md": "Probability of A given that B occurred.", "latex": "P(A\\mid B)=\\frac{P(A\\cap B)}{P(B)}", "importance": 0.8, "aliases": [], "chunk_ids": ["ch_1"], "role": "defines"},
+      {"temp_id": "t2", "name": "Bayes' theorem", "kind": "theorem", "summary_md": "Inverts a conditional probability using the prior.", "latex": null, "importance": 0.95, "aliases": ["Bayes' rule"], "chunk_ids": ["ch_2", "ch_3"], "role": "defines"},
+      {"temp_id": "t3", "name": "independence", "kind": "concept", "importance": 0.4, "chunk_ids": ["ch_4"]}
+    ],
+    "edges": [
+      {"from_temp": "t1", "to_temp": "t2", "kind": "prerequisite_of", "confidence": 0.9},
+      {"from_temp": "t1", "to_temp": "t3", "kind": "confusable_with", "confidence": 0.6}
+    ]},
+    {"concepts": []}
+  ],
+  "invalid": [
+    {"_why": "edge to an unknown temp_id", "output": {"concepts": [{"temp_id": "t1", "name": "x", "kind": "concept"}], "edges": [{"from_temp": "t1", "to_temp": "t9", "kind": "related_to", "confidence": 0.5}]}},
+    {"_why": "duplicate temp_id", "output": {"concepts": [{"temp_id": "t1", "name": "x", "kind": "concept"}, {"temp_id": "t1", "name": "y", "kind": "concept"}]}},
+    {"_why": "importance above 1", "output": {"concepts": [{"temp_id": "t1", "name": "x", "kind": "concept", "importance": 3}]}},
+    {"_why": "embedding is not an LLM field", "output": {"concepts": [{"temp_id": "t1", "name": "x", "kind": "concept", "embedding": [0.1]}]}}
+  ]
+}

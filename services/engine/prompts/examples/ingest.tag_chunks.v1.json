@@ -1,0 +1,13 @@
+{
+  "valid": [
+    {"tags": [
+      {"chunk_id": "ch_1", "content_type": "definition", "concept_names": ["conditional probability"]},
+      {"chunk_id": "ch_2", "content_type": "question", "concept_names": []},
+      {"chunk_id": "ch_3", "content_type": "text"}
+    ]}
+  ],
+  "invalid": [
+    {"_why": "content_type outside the chunk enum", "output": {"tags": [{"chunk_id": "ch_1", "content_type": "lemma"}]}},
+    {"_why": "chunk_id missing", "output": {"tags": [{"content_type": "text"}]}}
+  ]
+}

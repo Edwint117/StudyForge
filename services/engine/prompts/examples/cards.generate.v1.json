@@ -1,0 +1,17 @@
+{
+  "valid": [
+    {"cards": [
+      {"type": "basic", "front_md": "What does Bayes' theorem let you compute from $P(B\\mid A)$?", "back_md": "$P(A\\mid B)$", "answer_spec": {"check": "sympy", "expected_latex": "P(A\\mid B)"}, "source_chunk_ids": ["ch_12"], "concept_names": ["Bayes' theorem"]},
+      {"type": "cloze", "cloze_md": "The standard acceleration due to gravity is {{c1::9.81 m/s^2}}.", "answer_spec": {"check": "numeric", "expected": "9.81 m/s^2"}, "source_chunk_ids": ["ch_3"]},
+      {"type": "free_explain", "front_md": "Explain why the prior matters in Bayes' theorem.", "back_md": "It weights the likelihood by how common the hypothesis is.", "answer_spec": {"check": "llm_keypoints", "keypoints": ["prior weights the likelihood", "rare hypotheses stay unlikely"]}, "source_chunk_ids": ["ch_12", "ch_13"]},
+      {"type": "reversed", "front_md": "Term for $P(A\\mid B)$ in Bayes' theorem", "back_md": "posterior", "answer_spec": {"check": "text", "expected": "posterior", "alternates": ["posterior probability"]}, "source_chunk_ids": ["ch_12"]}
+    ]},
+    {"cards": []}
+  ],
+  "invalid": [
+    {"_why": "card without a source", "output": {"cards": [{"type": "basic", "front_md": "Q", "back_md": "A", "answer_spec": {"check": "text", "expected": "A"}, "source_chunk_ids": []}]}},
+    {"_why": "unknown answer check", "output": {"cards": [{"type": "basic", "front_md": "Q", "back_md": "A", "answer_spec": {"check": "regex", "expected": "A"}, "source_chunk_ids": ["c"]}]}},
+    {"_why": "llm_keypoints with no key points", "output": {"cards": [{"type": "free_explain", "front_md": "Q", "answer_spec": {"check": "llm_keypoints", "keypoints": []}, "source_chunk_ids": ["c"]}]}},
+    {"_why": "unknown card type", "output": {"cards": [{"type": "essay", "front_md": "Q", "answer_spec": {"check": "text", "expected": "A"}, "source_chunk_ids": ["c"]}]}}
+  ]
+}

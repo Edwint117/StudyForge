@@ -1,0 +1,117 @@
+{
+  "$defs": {
+    "ExtractedEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "type": "number"
+        },
+        "from_temp": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "prerequisite_of",
+            "part_of",
+            "related_to",
+            "confusable_with"
+          ],
+          "type": "string"
+        },
+        "to_temp": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from_temp",
+        "to_temp",
+        "kind",
+        "confidence"
+      ],
+      "type": "object"
+    },
+    "LlmConcept": {
+      "additionalProperties": false,
+      "properties": {
+        "aliases": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "chunk_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "importance": {
+          "type": "number"
+        },
+        "kind": {
+          "enum": [
+            "concept",
+            "definition",
+            "formula",
+            "theorem",
+            "algorithm",
+            "procedure"
+          ],
+          "type": "string"
+        },
+        "latex": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "defines",
+            "uses",
+            "example_of"
+          ],
+          "type": "string"
+        },
+        "summary_md": {
+          "type": "string"
+        },
+        "temp_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "temp_id",
+        "name",
+        "kind"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "concepts": {
+      "items": {
+        "$ref": "#/$defs/LlmConcept"
+      },
+      "type": "array"
+    },
+    "edges": {
+      "items": {
+        "$ref": "#/$defs/ExtractedEdge"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "concepts"
+  ],
+  "type": "object"
+}

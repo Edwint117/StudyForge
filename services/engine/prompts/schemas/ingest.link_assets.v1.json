@@ -1,0 +1,39 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "confidence": {
+      "type": "number"
+    },
+    "decision": {
+      "enum": [
+        "link",
+        "no_link"
+      ],
+      "type": "string"
+    },
+    "kind": {
+      "anyOf": [
+        {
+          "enum": [
+            "slide_textbook",
+            "lecture_lab",
+            "material_past_exam",
+            "transcript_slide"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "decision",
+    "confidence"
+  ],
+  "type": "object"
+}

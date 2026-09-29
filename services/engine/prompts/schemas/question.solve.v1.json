@@ -1,0 +1,32 @@
+{
+  "additionalProperties": false,
+  "description": "One independent solve (``question.solve``). ``issues`` lets the solver reject a flawed question outright.",
+  "properties": {
+    "confidence": {
+      "type": "number"
+    },
+    "final_answer": {
+      "type": "string"
+    },
+    "issues": {
+      "items": {
+        "enum": [
+          "ambiguous",
+          "unsolvable",
+          "multiple_valid_answers",
+          "missing_information"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "work_md": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "final_answer",
+    "confidence"
+  ],
+  "type": "object"
+}

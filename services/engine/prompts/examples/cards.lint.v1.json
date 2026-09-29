@@ -1,0 +1,13 @@
+{
+  "valid": [
+    {"results": [
+      {"index": 0, "passed": true, "issues": []},
+      {"index": 1, "passed": false, "issues": [{"code": "multiple_facts", "message": "Asks for both the formula and its conditions."}]}
+    ]}
+  ],
+  "invalid": [
+    {"_why": "failed card without issues", "output": {"results": [{"index": 0, "passed": false, "issues": []}]}},
+    {"_why": "negative index", "output": {"results": [{"index": -1, "passed": true}]}},
+    {"_why": "unknown issue code", "output": {"results": [{"index": 0, "passed": false, "issues": [{"code": "boring", "message": "x"}]}]}}
+  ]
+}

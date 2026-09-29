@@ -1,0 +1,153 @@
+{
+  "$defs": {
+    "Choice": {
+      "additionalProperties": false,
+      "properties": {
+        "correct": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "text_md": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text_md",
+        "correct"
+      ],
+      "type": "object"
+    },
+    "CodeTest": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_stdout": {
+          "type": "string"
+        },
+        "stdin": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "expected_stdout"
+      ],
+      "type": "object"
+    },
+    "QuestionStep": {
+      "additionalProperties": false,
+      "properties": {
+        "answer_kind": {
+          "enum": [
+            "text",
+            "numeric",
+            "sympy"
+          ],
+          "type": "string"
+        },
+        "expected": {
+          "type": "string"
+        },
+        "points": {
+          "type": "number"
+        },
+        "prompt_md": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "prompt_md",
+        "expected",
+        "answer_kind",
+        "points"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "answer_key": {
+      "type": "string"
+    },
+    "answer_kind": {
+      "enum": [
+        "text",
+        "numeric",
+        "sympy",
+        "code"
+      ],
+      "type": "string"
+    },
+    "choices": {
+      "items": {
+        "$ref": "#/$defs/Choice"
+      },
+      "type": "array"
+    },
+    "concept_names": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "difficulty": {
+      "type": "integer"
+    },
+    "points": {
+      "type": "number"
+    },
+    "reference_solution": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source_chunk_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "stem_md": {
+      "type": "string"
+    },
+    "steps": {
+      "items": {
+        "$ref": "#/$defs/QuestionStep"
+      },
+      "type": "array"
+    },
+    "tests": {
+      "items": {
+        "$ref": "#/$defs/CodeTest"
+      },
+      "type": "array"
+    },
+    "type": {
+      "enum": [
+        "mcq",
+        "short",
+        "numeric",
+        "multi_step",
+        "code",
+        "proof"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "stem_md",
+    "answer_kind",
+    "answer_key",
+    "points",
+    "difficulty",
+    "source_chunk_ids"
+  ],
+  "type": "object"
+}

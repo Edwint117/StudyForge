@@ -1,0 +1,62 @@
+{
+  "answer.keypoints.v1.md": {
+    "prompt_version": "answer.keypoints@1",
+    "sha256": "0b2847d4e3abbf59d879ed7ba5f7bb5676d6affda555cea9446aced91e0c26ce"
+  },
+  "cards.generate.v1.md": {
+    "prompt_version": "cards.generate@1",
+    "sha256": "52ca0836314cf32046145859eb25e688d992bab58a6899738b22f2e8d58a2ed3"
+  },
+  "cards.lint.v1.md": {
+    "prompt_version": "cards.lint@1",
+    "sha256": "355859925449d4570fcdcfa5fffd76a8070e4845fce51deb84ca82333097acd6"
+  },
+  "cheatsheet.compress.v1.md": {
+    "prompt_version": "cheatsheet.compress@1",
+    "sha256": "cf7a93f21dca16991b888435551a049ba8530274752f895c5137bd08683b2ea3"
+  },
+  "feynman.analyze.v1.md": {
+    "prompt_version": "feynman.analyze@1",
+    "sha256": "83a6d73a8b3edbc79dd4fe6a047853bbabb610f484e0a5b7a0dccf02f56b7459"
+  },
+  "grade.rubric.v1.md": {
+    "prompt_version": "grade.rubric@1",
+    "sha256": "0cc75fba1646346cabc5aed08fe5f400d894cd7ad88eb7c4e64393c2167db3e6"
+  },
+  "ingest.extract_concepts.v1.md": {
+    "prompt_version": "ingest.extract_concepts@1",
+    "sha256": "4b65f08880ff592925bc7d9f4e10e82bf324b108b4fa4a7a6dc4bf6197b1a8f1"
+  },
+  "ingest.link_assets.v1.md": {
+    "prompt_version": "ingest.link_assets@1",
+    "sha256": "01fd76bb7fc5c9e8e06d0db3202e24e3600eb7899ac9ce5edbeb894be9bf7751"
+  },
+  "ingest.tag_chunks.v1.md": {
+    "prompt_version": "ingest.tag_chunks@1",
+    "sha256": "a0008a5ef3313c8b2a616fadba4f4d56cc99d7d6ca67b7a5cce737e9c2385fd2"
+  },
+  "ocr.vision.v1.md": {
+    "prompt_version": "ocr.vision@1",
+    "sha256": "6c24872b32eaee2b41327520c90b2cfb1d3578b8c99b3eec985182a88ea9e5e7"
+  },
+  "question.generate.v1.md": {
+    "prompt_version": "question.generate@1",
+    "sha256": "9187c5890eb6b78fb1b16612975c853eaaf913b1ed04232bbe1479ab35cfc014"
+  },
+  "question.solve.v1.md": {
+    "prompt_version": "question.solve@1",
+    "sha256": "cc55969f0069fb50d24249d7c8e60beeb5d8da15524f6a75ce2c2f2299019c12"
+  },
+  "syllabus.extract.v1.md": {
+    "prompt_version": "syllabus.extract@1",
+    "sha256": "02c64d6e6827dadcdf4e74d5deb2cdbe45865327d9cfa5c64aa20e92f96b715c"
+  },
+  "tutor.guard.v1.md": {
+    "prompt_version": "tutor.guard@1",
+    "sha256": "7693c9f0c509a2eec73e6a6bea113d2d39a719b5b79dbbb65b663f9ec84460cb"
+  },
+  "tutor.socratic.v1.md": {
+    "prompt_version": "tutor.socratic@1",
+    "sha256": "661ecdab0824e1f63c389dd0a987bd336d7cc18fe31b083b67a8fd722200e034"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "valid": [
+    {"scores": [
+      {"criterion_id": "setup", "awarded": 2, "reason": "Correct Bayes setup with P(D|+) identified.", "error_class": null, "citation": "ch_12"},
+      {"criterion_id": "compute", "awarded": 1, "reason": "Denominator omits the false-positive term.", "error_class": "formula_recall", "citation": "ch_12"}
+    ], "confidence": 0.86},
+    {"scores": [{"criterion_id": "proof", "awarded": 0, "reason": "Assumes what is to be proved.", "error_class": "conceptual", "citation": null}], "confidence": 0.62}
+  ],
+  "invalid": [
+    {"_why": "confidence above 1", "output": {"scores": [], "confidence": 1.4}},
+    {"_why": "negative awarded points", "output": {"scores": [{"criterion_id": "a", "awarded": -1}], "confidence": 0.9}},
+    {"_why": "error_class outside the enum", "output": {"scores": [{"criterion_id": "a", "awarded": 0, "error_class": "careless"}], "confidence": 0.9}},
+    {"_why": "extra property", "output": {"scores": [], "confidence": 0.9, "total": 3}}
+  ]
+}

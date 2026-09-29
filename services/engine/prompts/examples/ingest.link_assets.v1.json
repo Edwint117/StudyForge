@@ -1,0 +1,11 @@
+{
+  "valid": [
+    {"decision": "link", "kind": "slide_textbook", "confidence": 0.82, "reason": "Both derive the same Bayes example."},
+    {"decision": "no_link", "kind": null, "confidence": 0.7, "reason": "Same chapter, different ideas."}
+  ],
+  "invalid": [
+    {"_why": "link without kind", "output": {"decision": "link", "kind": null, "confidence": 0.8}},
+    {"_why": "no_link with a kind", "output": {"decision": "no_link", "kind": "lecture_lab", "confidence": 0.8}},
+    {"_why": "unknown decision", "output": {"decision": "maybe", "confidence": 0.5}}
+  ]
+}

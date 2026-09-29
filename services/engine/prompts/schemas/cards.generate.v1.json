@@ -1,0 +1,167 @@
+{
+  "$defs": {
+    "KeypointsSpec": {
+      "additionalProperties": false,
+      "description": "``llm_keypoints`` answer check (doc 05 §8): judged by ``answer.keypoints`` against these points.",
+      "properties": {
+        "check": {
+          "const": "llm_keypoints",
+          "type": "string"
+        },
+        "keypoints": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "keypoints"
+      ],
+      "type": "object"
+    },
+    "LlmCard": {
+      "additionalProperties": false,
+      "properties": {
+        "answer_spec": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TextSpec"
+            },
+            {
+              "$ref": "#/$defs/NumericSpec"
+            },
+            {
+              "$ref": "#/$defs/SympySpec"
+            },
+            {
+              "$ref": "#/$defs/KeypointsSpec"
+            }
+          ]
+        },
+        "back_md": {
+          "type": "string"
+        },
+        "cloze_md": {
+          "type": "string"
+        },
+        "concept_names": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "front_md": {
+          "type": "string"
+        },
+        "source_chunk_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "type": {
+          "enum": [
+            "basic",
+            "reversed",
+            "cloze",
+            "concept_map",
+            "math_step",
+            "code",
+            "free_explain"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "answer_spec",
+        "source_chunk_ids"
+      ],
+      "type": "object"
+    },
+    "NumericSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "abs_tol": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "check": {
+          "const": "numeric",
+          "type": "string"
+        },
+        "expected": {
+          "type": "string"
+        },
+        "rel_tol": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "expected"
+      ],
+      "type": "object"
+    },
+    "SympySpec": {
+      "additionalProperties": false,
+      "properties": {
+        "check": {
+          "const": "sympy",
+          "type": "string"
+        },
+        "expected_latex": {
+          "type": "string"
+        },
+        "timeout_s": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "expected_latex"
+      ],
+      "type": "object"
+    },
+    "TextSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "alternates": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "check": {
+          "const": "text",
+          "type": "string"
+        },
+        "expected": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "expected"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "cards": {
+      "items": {
+        "$ref": "#/$defs/LlmCard"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "cards"
+  ],
+  "type": "object"
+}

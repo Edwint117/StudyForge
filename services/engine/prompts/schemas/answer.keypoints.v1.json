@@ -1,0 +1,25 @@
+{
+  "additionalProperties": false,
+  "description": "doc 05 §8 ``llm_keypoints``: key-point ids the answer covers, misses, or states incorrectly.",
+  "properties": {
+    "covered": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "incorrect": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "missing": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "type": "object"
+}

@@ -1,0 +1,22 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "evidence": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "states_final_answer": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "states_final_answer"
+  ],
+  "type": "object"
+}

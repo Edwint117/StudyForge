@@ -1,0 +1,9 @@
+{
+  "valid": [
+    {"items": [{"item_id": "f1", "short_md": "$P(A\\mid B)=\\frac{P(B\\mid A)P(A)}{P(B)}$, $P(B)>0$"}]}
+  ],
+  "invalid": [
+    {"_why": "empty short variant", "output": {"items": [{"item_id": "f1", "short_md": ""}]}},
+    {"_why": "item_id missing", "output": {"items": [{"short_md": "x"}]}}
+  ]
+}

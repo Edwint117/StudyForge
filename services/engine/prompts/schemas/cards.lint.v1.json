@@ -1,0 +1,63 @@
+{
+  "$defs": {
+    "CardLintVerdict": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "type": "integer"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/LlmLintIssue"
+          },
+          "type": "array"
+        },
+        "passed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "index",
+        "passed"
+      ],
+      "type": "object"
+    },
+    "LlmLintIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "multiple_facts",
+            "ambiguous",
+            "answer_leak",
+            "unsupported_by_source",
+            "too_long",
+            "other"
+          ],
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "results": {
+      "items": {
+        "$ref": "#/$defs/CardLintVerdict"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "results"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,10 @@
+{
+  "valid": [
+    {"text_md": "## Newton's second law\n$$F = ma$$\nwhere $m$ is the mass. [illegible]", "latex": ["F = ma"], "confidence": 0.74},
+    {"text_md": "", "confidence": 0.05}
+  ],
+  "invalid": [
+    {"_why": "confidence above 1", "output": {"text_md": "x", "confidence": 1.2}},
+    {"_why": "latex must be a list", "output": {"text_md": "x", "latex": "F=ma", "confidence": 0.9}}
+  ]
+}

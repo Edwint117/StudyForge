@@ -1,0 +1,49 @@
+{
+  "$defs": {
+    "ChunkTag": {
+      "additionalProperties": false,
+      "properties": {
+        "chunk_id": {
+          "type": "string"
+        },
+        "concept_names": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "content_type": {
+          "enum": [
+            "definition",
+            "theorem",
+            "proof",
+            "formula",
+            "example",
+            "code",
+            "question",
+            "text"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "chunk_id",
+        "content_type"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "tags": {
+      "items": {
+        "$ref": "#/$defs/ChunkTag"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "tags"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,20 @@
+{
+  "valid": [
+    {
+      "judgements": [
+        {"key_point_id": "kp1", "covered": true, "evidence_quote": "you flip the condition using the prior"},
+        {"key_point_id": "kp2", "covered": false, "evidence_quote": null}
+      ],
+      "missing_steps": ["doesn't say why P(B) must be non-zero"],
+      "terms": [{"term": "posterior", "explained": false}],
+      "errors": [{"claim": "P(A|B) equals P(B|A)", "correction": "They differ by the factor P(A)/P(B).", "citation": "ch_7"}],
+      "followups": ["What happens when P(B) is 0?", "Why does the prior matter?"]
+    },
+    {"judgements": [{"key_point_id": "kp1", "covered": true, "evidence_quote": "rate of change"}]}
+  ],
+  "invalid": [
+    {"_why": "judgements missing", "output": {"missing_steps": []}},
+    {"_why": "error without citation", "output": {"judgements": [], "errors": [{"claim": "x", "correction": "y"}]}},
+    {"_why": "covered must be boolean", "output": {"judgements": [{"key_point_id": "kp1", "covered": "yes"}]}}
+  ]
+}
