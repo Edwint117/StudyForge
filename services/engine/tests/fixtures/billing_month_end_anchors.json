@@ -1,0 +1,14 @@
+{
+  "_doc": "doc 07 §6 month-end anchors (UTC). Each boundary = anchor + k months, day clamped to the target month's length, computed from the ORIGINAL anchor (never chained). Monthly anchor 2026-01-31 15:00: Feb 2026 has 28 days -> Feb 28; Mar has 31 -> Mar 31 (not Mar 28, which chaining would give); Apr has 30 -> Apr 30; May -> May 31. 2028 is a leap year (divisible by 4, not by 100) -> Feb 29. Yearly anchor 2028-02-29: 2029/2030/2031 are not leap -> Feb 28; 2032 is leap -> Feb 29 again. period_index: the period flips exactly at the boundary instant (2026-02-28T15:00:00Z starts period 1; one second earlier is still period 0).",
+  "series": [
+    {"anchor": "2026-01-31T15:00:00Z", "interval": "month", "starts": ["2026-01-31T15:00:00Z", "2026-02-28T15:00:00Z", "2026-03-31T15:00:00Z", "2026-04-30T15:00:00Z", "2026-05-31T15:00:00Z"]},
+    {"anchor": "2028-01-31T00:00:00Z", "interval": "month", "starts": ["2028-01-31T00:00:00Z", "2028-02-29T00:00:00Z", "2028-03-31T00:00:00Z"]},
+    {"anchor": "2028-02-29T12:00:00Z", "interval": "year", "starts": ["2028-02-29T12:00:00Z", "2029-02-28T12:00:00Z", "2030-02-28T12:00:00Z", "2031-02-28T12:00:00Z", "2032-02-29T12:00:00Z"]}
+  ],
+  "index_cases": [
+    {"anchor": "2026-01-31T15:00:00Z", "interval": "month", "at": "2026-02-28T14:59:59Z", "index": 0},
+    {"anchor": "2026-01-31T15:00:00Z", "interval": "month", "at": "2026-02-28T15:00:00Z", "index": 1},
+    {"anchor": "2026-01-31T15:00:00Z", "interval": "month", "at": "2026-03-31T00:00:00Z", "index": 1},
+    {"anchor": "2028-02-29T12:00:00Z", "interval": "year", "at": "2030-03-01T00:00:00Z", "index": 2}
+  ]
+}

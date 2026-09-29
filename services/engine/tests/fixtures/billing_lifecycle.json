@@ -1,0 +1,71 @@
+{
+  "_doc": "doc 07 §5-6 subscription state machine, hand-derived. Scenario A (upgrade, renewal on a month-end anchor, scheduled downgrade, dunning to Free): checkout at 2026-01-31 15:00 -> period Jan 31 15:00 -> Feb 28 15:00 (28 days). Upgrade at Feb 10 15:00 leaves 18/28: credit 1200*18/28 = 771.43 -> -771, charge 2400*18/28 = 1542.86 -> 1543, subtotal 772, discount -772. Renewal at Feb 28 15:00 -> next period ends Mar 31 15:00 (anchor day 31, not Mar 28). Downgrade scheduled Mar 5 applies at Mar 31 15:00 -> Pro monthly, period to Apr 30 15:00. Payment fails Apr 10 00:00 -> past_due, grace ends Apr 17 00:00 (7 days); reminders due on days 0/3/6 = Apr 10/13/16; the plan stays Pro until Apr 17 00:00, then Free; the tick at Apr 17 00:00 deletes the subscription (reason grace_expired). A second confirm of the same checkout and a second tick at the same instant emit nothing. Scenario B: failure then recovery inside the grace period returns to active. Scenario C: yearly plan; cancel at period end / duplicate cancel (no-op) / resume / cancel again; ends exactly at 2027-05-15 00:00 (one second before: nothing); resubscribing creates a new subscription. Scenario D: 7-day trial (not exposed in beta) converts at trial end with the anchor at the conversion instant.",
+  "scenarios": [
+    {"name": "A", "user_id": "u1", "steps": [
+      {"op": "confirm_checkout", "at": "2026-01-31T15:00:00Z", "checkout_id": "co_1", "price_id": "pro_month", "subscription_id": "sub_A",
+       "events": ["checkout.completed", "subscription.created", "invoice.created", "invoice.paid"], "effects": ["subscription_activated", "invoice_recorded", "invoice_paid"],
+       "expect": {"status": "active", "price_id": "pro_month", "period": ["2026-01-31T15:00:00Z", "2026-02-28T15:00:00Z"], "version": 1, "plan": "pro", "invoice_lines": [1200, -1200, 0]}},
+      {"op": "confirm_checkout", "at": "2026-01-31T15:00:05Z", "checkout_id": "co_1", "price_id": "pro_month", "subscription_id": "sub_A", "events": [], "effects": [], "expect": {"version": 1}},
+      {"op": "change_plan", "at": "2026-02-10T15:00:00Z", "price_id": "pro_plus_month",
+       "events": ["subscription.updated", "invoice.created", "invoice.paid"], "effects": ["plan_upgraded", "invoice_recorded", "invoice_paid"],
+       "expect": {"status": "active", "price_id": "pro_plus_month", "period": ["2026-01-31T15:00:00Z", "2026-02-28T15:00:00Z"], "version": 2, "plan": "pro_plus", "invoice_lines": [-771, 1543, -772, 0]}},
+      {"op": "tick", "at": "2026-02-28T15:00:00Z",
+       "events": ["subscription.updated", "invoice.created", "invoice.paid"], "effects": ["renewed", "invoice_recorded", "invoice_paid"],
+       "expect": {"period": ["2026-02-28T15:00:00Z", "2026-03-31T15:00:00Z"], "version": 3, "invoice_lines": [2400, -2400, 0]}},
+      {"op": "tick", "at": "2026-02-28T15:00:00Z", "events": [], "effects": [], "expect": {"version": 3}},
+      {"op": "change_plan", "at": "2026-03-05T00:00:00Z", "price_id": "pro_month",
+       "events": ["subscription.updated"], "effects": ["downgrade_scheduled"],
+       "expect": {"price_id": "pro_plus_month", "scheduled_price_id": "pro_month", "version": 4, "plan": "pro_plus"}},
+      {"op": "tick", "at": "2026-03-31T15:00:00Z",
+       "events": ["subscription.updated", "invoice.created", "invoice.paid"], "effects": ["plan_changed_at_renewal", "invoice_recorded", "invoice_paid"],
+       "expect": {"price_id": "pro_month", "scheduled_price_id": null, "period": ["2026-03-31T15:00:00Z", "2026-04-30T15:00:00Z"], "version": 5, "plan": "pro"}},
+      {"op": "fail", "at": "2026-04-10T00:00:00Z", "kind": "soft",
+       "events": ["invoice.created", "invoice.payment_failed", "subscription.updated"], "effects": ["invoice_recorded", "payment_failed"],
+       "expect": {"status": "past_due", "grace_ends_at": "2026-04-17T00:00:00Z", "version": 6, "plan": "pro"}},
+      {"op": "tick", "at": "2026-04-16T23:59:00Z", "events": [], "effects": [], "expect": {"status": "past_due", "plan": "pro"}},
+      {"op": "tick", "at": "2026-04-17T00:00:00Z", "events": ["subscription.deleted"], "effects": ["subscription_canceled"],
+       "expect": {"status": "canceled", "version": 7, "plan": "free", "cancel_detail": "grace_expired"}}
+    ],
+     "dunning": [
+      {"at": "2026-04-10T00:00:00Z", "sent": [], "due": [0]},
+      {"at": "2026-04-13T00:00:00Z", "sent": [0], "due": [3]},
+      {"at": "2026-04-16T00:00:00Z", "sent": [0, 3], "due": [6]},
+      {"at": "2026-04-16T00:00:00Z", "sent": [0, 3, 6], "due": []}
+     ],
+     "plan_at": [
+      {"after_step": 7, "at": "2026-04-16T23:59:59Z", "plan": "pro"},
+      {"after_step": 7, "at": "2026-04-17T00:00:00Z", "plan": "free"}
+     ]},
+    {"name": "B", "user_id": "u2", "steps": [
+      {"op": "confirm_checkout", "at": "2026-01-31T15:00:00Z", "checkout_id": "co_b", "price_id": "pro_month", "subscription_id": "sub_B",
+       "events": ["checkout.completed", "subscription.created", "invoice.created", "invoice.paid"], "effects": ["subscription_activated", "invoice_recorded", "invoice_paid"], "expect": {"status": "active"}},
+      {"op": "fail", "at": "2026-02-05T00:00:00Z", "kind": "hard",
+       "events": ["invoice.created", "invoice.payment_failed", "subscription.updated"], "effects": ["invoice_recorded", "payment_failed"],
+       "expect": {"status": "past_due", "grace_ends_at": "2026-02-12T00:00:00Z", "plan": "pro"}},
+      {"op": "recover", "at": "2026-02-08T00:00:00Z", "events": ["invoice.paid", "subscription.updated"], "effects": ["invoice_paid", "payment_recovered"],
+       "expect": {"status": "active", "grace_ends_at": null, "plan": "pro"}},
+      {"op": "tick", "at": "2026-02-28T15:00:00Z", "events": ["subscription.updated", "invoice.created", "invoice.paid"], "effects": ["renewed", "invoice_recorded", "invoice_paid"],
+       "expect": {"period": ["2026-02-28T15:00:00Z", "2026-03-31T15:00:00Z"]}}
+    ]},
+    {"name": "C", "user_id": "u3", "steps": [
+      {"op": "confirm_checkout", "at": "2026-05-15T00:00:00Z", "checkout_id": "co_c", "price_id": "pro_year", "subscription_id": "sub_C",
+       "events": ["checkout.completed", "subscription.created", "invoice.created", "invoice.paid"], "effects": ["subscription_activated", "invoice_recorded", "invoice_paid"],
+       "expect": {"period": ["2026-05-15T00:00:00Z", "2027-05-15T00:00:00Z"], "invoice_lines": [9600, -9600, 0]}},
+      {"op": "cancel", "at": "2026-06-01T00:00:00Z", "at_period_end": true, "events": ["subscription.updated"], "effects": ["cancel_scheduled"], "expect": {"cancel_at_period_end": true, "plan": "pro"}},
+      {"op": "cancel", "at": "2026-06-01T00:00:10Z", "at_period_end": true, "events": [], "effects": [], "expect": {"cancel_at_period_end": true}},
+      {"op": "resume", "at": "2026-06-02T00:00:00Z", "events": ["subscription.updated"], "effects": ["resumed"], "expect": {"cancel_at_period_end": false}},
+      {"op": "cancel", "at": "2026-07-01T00:00:00Z", "at_period_end": true, "events": ["subscription.updated"], "effects": ["cancel_scheduled"], "expect": {"cancel_at_period_end": true}},
+      {"op": "tick", "at": "2027-05-14T23:59:59Z", "events": [], "effects": [], "expect": {"status": "active", "plan": "pro"}},
+      {"op": "tick", "at": "2027-05-15T00:00:00Z", "events": ["subscription.deleted"], "effects": ["subscription_canceled"], "expect": {"status": "canceled", "plan": "free", "cancel_detail": "canceled"}},
+      {"op": "confirm_checkout", "at": "2027-06-01T00:00:00Z", "checkout_id": "co_c2", "price_id": "pro_month", "subscription_id": "sub_C2",
+       "events": ["checkout.completed", "subscription.created", "invoice.created", "invoice.paid"], "effects": ["subscription_activated", "invoice_recorded", "invoice_paid"],
+       "expect": {"status": "active", "version": 1, "period": ["2027-06-01T00:00:00Z", "2027-07-01T00:00:00Z"], "plan": "pro"}}
+    ]},
+    {"name": "D", "user_id": "u4", "steps": [
+      {"op": "start_trial", "at": "2026-06-01T00:00:00Z", "price_id": "pro_month", "subscription_id": "sub_D", "days": 7,
+       "events": ["subscription.created"], "effects": ["trial_started"], "expect": {"status": "trialing", "period": ["2026-06-01T00:00:00Z", "2026-06-08T00:00:00Z"], "plan": "pro"}},
+      {"op": "tick", "at": "2026-06-08T00:00:00Z", "events": ["subscription.updated", "invoice.created", "invoice.paid"], "effects": ["subscription_activated", "invoice_recorded", "invoice_paid"],
+       "expect": {"status": "active", "period": ["2026-06-08T00:00:00Z", "2026-07-08T00:00:00Z"], "plan": "pro"}}
+    ]}
+  ]
+}

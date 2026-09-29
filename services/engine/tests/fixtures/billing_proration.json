@@ -1,0 +1,28 @@
+{
+  "_doc": "doc 07 §5.4 proration on list prices (Pro $12/mo = 1200c, Pro+ $24/mo = 2400c, Pro $96/yr = 9600c), by the second, rounded half-up per line, then the Beta line discounts the positive subtotal to 0; tax 0. A: Apr 1 -> May 1 = 30 days; change at Apr 16 00:00 leaves 15/30 = 1/2: credit -1200/2 = -600, charge 2400/2 = +1200, subtotal 600, discount -600, total 0; same interval keeps the period. B: anchor Jan 31 -> period Feb 28 -> Mar 31 = 31 days; change at Mar 10 00:00 leaves 21 days: credit 1200*21/31 = 25200/31 = 812.903 -> -813; charge 2400*21/31 = 50400/31 = 1625.806 -> 1626; subtotal 813; discount -813. C: monthly -> yearly is an upgrade with a new interval: credit -600 (as A) + full yearly price 9600 = 9000 subtotal, discount -9000; the new period starts at the change instant (anchor reset): 2026-04-16 -> 2027-04-16. D: Pro+ -> Pro is a downgrade: effective at period end May 1, no proration; the next invoice is Pro 1200 - 1200 discount = 0; new period May 1 -> Jun 1. E: 30-day period = 2,592,000 s; 18 min (1080 s) left: credit 1200*1080/2592000 = 0.5 -> half-up -> -1; charge 2400*1080/2592000 = 1.0 -> 1; subtotal 0 -> discount 0.",
+  "cases": [
+    {"name": "A", "old": "pro_month", "new": "pro_plus_month", "period_start": "2026-04-01T00:00:00Z", "period_end": "2026-05-01T00:00:00Z", "at": "2026-04-16T00:00:00Z",
+     "kind": "upgrade", "effective_at": "2026-04-16T00:00:00Z", "line_amounts": [-600, 1200, -600, 0], "line_kinds": ["proration_credit", "proration_charge", "discount", "tax"],
+     "subtotal": 600, "total": 0, "new_period": ["2026-04-01T00:00:00Z", "2026-05-01T00:00:00Z"], "anchor_reset": false},
+    {"name": "B", "old": "pro_month", "new": "pro_plus_month", "period_start": "2026-02-28T00:00:00Z", "period_end": "2026-03-31T00:00:00Z", "at": "2026-03-10T00:00:00Z",
+     "kind": "upgrade", "effective_at": "2026-03-10T00:00:00Z", "line_amounts": [-813, 1626, -813, 0], "line_kinds": ["proration_credit", "proration_charge", "discount", "tax"],
+     "subtotal": 813, "total": 0, "new_period": ["2026-02-28T00:00:00Z", "2026-03-31T00:00:00Z"], "anchor_reset": false},
+    {"name": "F", "_doc": "Pro yearly 2026-01-01 -> 2027-01-01 = 365 days; Jan 1 + 182.5 days = Jul 2 12:00 (Jan 31 + Feb 28 + Mar 31 + Apr 30 + May 31 + Jun 30 = 181 days to Jul 1, +1.5), leaving 182.5/365 = 1/2: credit -9600/2 = -4800; Pro+ monthly is a higher plan with a different interval -> full month +2400 and anchor reset; subtotal -2400 is not discounted -> total -2400 = $0 due + 2400 account credit. New period Jul 2 12:00 -> Aug 2 12:00.", "old": "pro_year", "new": "pro_plus_month", "period_start": "2026-01-01T00:00:00Z", "period_end": "2027-01-01T00:00:00Z", "at": "2026-07-02T12:00:00Z",
+     "kind": "upgrade", "effective_at": "2026-07-02T12:00:00Z", "line_amounts": [-4800, 2400, 0, 0], "line_kinds": ["proration_credit", "plan", "discount", "tax"],
+     "subtotal": -2400, "total": -2400, "amount_due": 0, "account_credit": 2400, "new_period": ["2026-07-02T12:00:00Z", "2026-08-02T12:00:00Z"], "anchor_reset": true},
+    {"name": "C", "old": "pro_month", "new": "pro_year", "period_start": "2026-04-01T00:00:00Z", "period_end": "2026-05-01T00:00:00Z", "at": "2026-04-16T00:00:00Z",
+     "kind": "upgrade", "effective_at": "2026-04-16T00:00:00Z", "line_amounts": [-600, 9600, -9000, 0], "line_kinds": ["proration_credit", "plan", "discount", "tax"],
+     "subtotal": 9000, "total": 0, "new_period": ["2026-04-16T00:00:00Z", "2027-04-16T00:00:00Z"], "anchor_reset": true},
+    {"name": "D", "old": "pro_plus_month", "new": "pro_month", "period_start": "2026-04-01T00:00:00Z", "period_end": "2026-05-01T00:00:00Z", "at": "2026-04-16T00:00:00Z",
+     "kind": "downgrade", "effective_at": "2026-05-01T00:00:00Z", "line_amounts": [1200, -1200, 0], "line_kinds": ["plan", "discount", "tax"],
+     "subtotal": 1200, "total": 0, "new_period": ["2026-05-01T00:00:00Z", "2026-06-01T00:00:00Z"], "anchor_reset": false},
+    {"name": "E", "old": "pro_month", "new": "pro_plus_month", "period_start": "2026-04-01T00:00:00Z", "period_end": "2026-05-01T00:00:00Z", "at": "2026-04-30T23:42:00Z",
+     "kind": "upgrade", "effective_at": "2026-04-30T23:42:00Z", "line_amounts": [-1, 1, 0, 0], "line_kinds": ["proration_credit", "proration_charge", "discount", "tax"],
+     "subtotal": 0, "total": 0, "new_period": ["2026-04-01T00:00:00Z", "2026-05-01T00:00:00Z"], "anchor_reset": false}
+  ],
+  "invoice_numbers": [
+    {"previous": null, "year": 2026, "next": "SF-2026-000001"},
+    {"previous": "SF-2026-000041", "year": 2026, "next": "SF-2026-000042"},
+    {"previous": "SF-2026-000042", "year": 2027, "next": "SF-2027-000001"}
+  ]
+}
