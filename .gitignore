@@ -1,0 +1,36 @@
+# secrets
+.env
+.env.*
+!.env.example
+!.env.keys.example
+# deps / builds
+node_modules/
+.pnpm-store/
+.next/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+.turbo/
+# python
+__pycache__/
+.venv/
+*.pyc
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+# terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+# supabase local
+supabase/.temp/
+supabase/.branches/
+# os / editors
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
