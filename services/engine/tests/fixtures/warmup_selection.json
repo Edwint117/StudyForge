@@ -1,0 +1,19 @@
+{
+  "_doc": "doc 05 §7 warm-up, hand-computed (decay 0.1542, all S=10 so R depends on elapsed/S = x). x=.25 -> .9668, x=1 -> .9, x=2 -> .8459, x=5 -> .7605 (in band .75-.97); x=.1 -> .9857 and x=6 -> .7428 (out of band). w6 is not definition/formula; w9 was never reviewed. count=5: exactly the 5 in-band cards; easiest 3 first (w1, then the .9 tie broken by id: w2, w5), then U2's w3, w4. count=7 fills with the out-of-band cards closest to the band: w8 (.0072 away) then w7 (.0157); interleave after w5(U3): U2 has most items -> w3, then not-U2 -> U1 w7, then w4, w8.",
+  "now": "2026-10-01T12:00:00Z",
+  "cards": [
+    {"card_id": "w1", "unit_id": "U1", "kind": "definition", "stability": 10, "last_review": "2026-09-29T00:00:00Z"},
+    {"card_id": "w2", "unit_id": "U1", "kind": "formula", "stability": 10, "last_review": "2026-09-21T12:00:00Z"},
+    {"card_id": "w3", "unit_id": "U2", "kind": "definition", "stability": 10, "last_review": "2026-09-11T12:00:00Z"},
+    {"card_id": "w4", "unit_id": "U2", "kind": "formula", "stability": 10, "last_review": "2026-08-12T12:00:00Z"},
+    {"card_id": "w5", "unit_id": "U3", "kind": "definition", "stability": 10, "last_review": "2026-09-21T12:00:00Z"},
+    {"card_id": "w6", "unit_id": "U3", "kind": "text", "stability": 10, "last_review": "2026-09-21T12:00:00Z"},
+    {"card_id": "w7", "unit_id": "U1", "kind": "definition", "stability": 10, "last_review": "2026-09-30T12:00:00Z"},
+    {"card_id": "w8", "unit_id": "U2", "kind": "definition", "stability": 10, "last_review": "2026-08-02T12:00:00Z"},
+    {"card_id": "w9", "unit_id": "U3", "kind": "formula"}
+  ],
+  "cases": [
+    {"count": 5, "expected": ["w1", "w2", "w5", "w3", "w4"]},
+    {"count": 7, "expected": ["w1", "w2", "w5", "w3", "w7", "w4", "w8"]}
+  ]
+}

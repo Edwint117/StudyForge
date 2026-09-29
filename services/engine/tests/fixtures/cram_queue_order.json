@@ -1,0 +1,27 @@
+{
+  "_doc": "doc 05 §7 cram queue, hand-computed (decay 0.1542). Units by weight: U1 .4, U2 .7, U3 .9 >= .8 -> U4 dropped. Keep mastery < .8: U1 (.5), U3 (not started = 0); U2 (.9) dropped. Priority U1 = .4*(.8-.5) = .12, U3 = .2*.8 = .16 -> U3 first. U1 cards at exam time: c1 R(3d,S=100) = .9955 >= .9 excluded; c2 R(4d,S=2) = .8459 -> (1-.8459)*(1+.5*1)*1.2 = .2774 x w_c; c3 never reviewed -> R 0 -> 1.0 x w_c. Order c3, c2. U1 questions by failure rate: q2 1.0, q1 .75 (q3 .1 dropped). U3 has only an unattempted question -> q4.",
+  "exam_start": "2026-10-03T00:00:00Z",
+  "units": [
+    {"unit_id": "U1", "weight": 40, "mastery": 0.5},
+    {"unit_id": "U2", "weight": 30, "mastery": 0.9},
+    {"unit_id": "U3", "weight": 20, "mastery": null},
+    {"unit_id": "U4", "weight": 10, "mastery": 0.2}
+  ],
+  "cards": [
+    {"card_id": "c1", "unit_id": "U1", "kind": "text", "stability": 100, "last_review": "2026-09-30T00:00:00Z"},
+    {"card_id": "c2", "unit_id": "U1", "kind": "formula", "stability": 2, "last_review": "2026-09-29T00:00:00Z", "recent_lapses": 1},
+    {"card_id": "c3", "unit_id": "U1", "kind": "text"},
+    {"card_id": "c4", "unit_id": "U3", "kind": "definition"},
+    {"card_id": "c5", "unit_id": "U4", "kind": "definition"}
+  ],
+  "questions": [
+    {"question_id": "q1", "unit_id": "U1", "attempts": 4, "failures": 3},
+    {"question_id": "q2", "unit_id": "U1", "attempts": 2, "failures": 2},
+    {"question_id": "q3", "unit_id": "U1", "attempts": 10, "failures": 1},
+    {"question_id": "q4", "unit_id": "U3", "attempts": 0, "failures": 0}
+  ],
+  "expected": [
+    {"unit_id": "U3", "priority": 0.16, "card_ids": ["c4"], "question_ids": ["q4"]},
+    {"unit_id": "U1", "priority": 0.12, "card_ids": ["c3", "c2"], "question_ids": ["q2", "q1"]}
+  ]
+}
