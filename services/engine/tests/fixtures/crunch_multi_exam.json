@@ -1,0 +1,13 @@
+{
+  "_doc": "doc 05 §2 trigger: card concepts [k1], reviewed 2026-10-01T00:00Z, S_after = 6. Exams: E_past started 2026-09-30 (ignored: not upcoming); E_other in 2 days but scope {k9} (no shared concept, ignored); E_late in 6 days {k1}; E_early in 3 days {k1,k2,k3}. Earliest in-scope upcoming = E_early, T = 3 <= 7 -> crunch applies against E_early. R(3,6) = (1 + 0.980346*0.5)^-0.1542 = 1.490173^-0.1542 = e^(-0.1542*0.398892) = e^-0.061509 = 0.940345 >= 0.93 and I_fsrs = 3.678 >= 3 -> single touch at T - 1 = 2 days (due 2026-10-03T00:00Z). With E_late instead (T = 6): R(6,6) = 0.9 < 0.93 -> capped at min(3.678, (6 - 0.75)/2 = 2.625) = 2.625, so the fixture tells the two apart. w_c in E_early = (50/2)/100 = 0.25 (U1 weight 50 split over k1,k2; U2 holds the other 50).",
+  "reviewed_at": "2026-10-01T00:00:00Z",
+  "concept_ids": ["k1"],
+  "stability_after": 6,
+  "exams": [
+    {"exam_id": "E_past", "starts_at": "2026-09-30T00:00:00Z", "units": [{"unit_id": "U1", "weight": 100, "concept_ids": ["k1"]}]},
+    {"exam_id": "E_other", "starts_at": "2026-10-03T00:00:00Z", "units": [{"unit_id": "U9", "weight": 100, "concept_ids": ["k9"]}]},
+    {"exam_id": "E_late", "starts_at": "2026-10-07T00:00:00Z", "units": [{"unit_id": "U1", "weight": 100, "concept_ids": ["k1"]}]},
+    {"exam_id": "E_early", "starts_at": "2026-10-04T00:00:00Z", "units": [{"unit_id": "U1", "weight": 50, "concept_ids": ["k1", "k2"]}, {"unit_id": "U2", "weight": 50, "concept_ids": ["k3"]}]}
+  ],
+  "expected": {"exam_id": "E_early", "kind": "single_touch", "interval_days": 2.0, "due_at": "2026-10-03T00:00:00Z", "card_weight": 0.25, "if_late_exam": {"kind": "capped", "interval_days": 2.625}}
+}

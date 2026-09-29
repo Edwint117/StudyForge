@@ -1,0 +1,11 @@
+{
+  "_doc": "doc 05 §3 step 3. 3 units x 4 cards, each card one concept (A1->a1 ...). Round-robin (as in interleave_basic): A1 B1 C1 A2 B2 C2 A3 B3 C3 A4 B4 C4. Pairs: (a1,c4) distance 11 > 3 -> fix; (b1,c1) distance 1 already satisfied; (a2,z9) z9 not in session -> ignored. Fix (a1,c4): the later item C4 (index 11) moves; without it the list is A1 B1 C1 A2 B2 C2 A3 B3 C3 A4 B4 and A1 stays at 0. Insert positions keeping |pos(C4) - pos(A1)| <= 3: pos 0 (C4 A1 B1 ..., 0 adjacencies), pos 1 (A1 C4 B1 C1 ..., 0), pos 2 (A1 B1 C4 C1: C-C adjacency, 1), pos 3 (A1 B1 C1 C4: 1). (b1,c1) stays satisfied at pos 0/1. Tie between pos 0 and 1 -> nearest the old index 11 -> pos 1. Result: A1 C4 B1 C1 A2 B2 C2 A3 B3 C3 A4 B4; no unsatisfied pairs.",
+  "cards": [
+    {"item_id": "A1", "unit_id": "A", "concept_ids": ["a1"]}, {"item_id": "A2", "unit_id": "A", "concept_ids": ["a2"]}, {"item_id": "A3", "unit_id": "A", "concept_ids": ["a3"]}, {"item_id": "A4", "unit_id": "A", "concept_ids": ["a4"]},
+    {"item_id": "B1", "unit_id": "B", "concept_ids": ["b1"]}, {"item_id": "B2", "unit_id": "B", "concept_ids": ["b2"]}, {"item_id": "B3", "unit_id": "B", "concept_ids": ["b3"]}, {"item_id": "B4", "unit_id": "B", "concept_ids": ["b4"]},
+    {"item_id": "C1", "unit_id": "C", "concept_ids": ["c1"]}, {"item_id": "C2", "unit_id": "C", "concept_ids": ["c2"]}, {"item_id": "C3", "unit_id": "C", "concept_ids": ["c3"]}, {"item_id": "C4", "unit_id": "C", "concept_ids": ["c4"]}
+  ],
+  "confusable_pairs": [["a1", "c4"], ["b1", "c1"], ["a2", "z9"]],
+  "expected": ["A1", "C4", "B1", "C1", "A2", "B2", "C2", "A3", "B3", "C3", "A4", "B4"],
+  "expected_unsatisfied": []
+}

@@ -1,0 +1,7 @@
+{
+  "_doc": "doc 05 §1 adoption rule. Toy model: parameters = a constant recall probability p; trainer fits p = recall rate of the training reviews. 500 reviews -> oldest 400 train, newest 100 holdout. Holdout log-loss: current p=.5 -> ln 2 = .693147; candidate p=.9 -> -(.9 ln .9 + .1 ln .1) = .325083, a 53% improvement >= 1% -> adopt.",
+  "current_p": 0.5,
+  "train": {"recalled": 360, "forgot": 40},
+  "holdout": {"recalled": 90, "forgot": 10},
+  "expected": {"adopt": true, "candidate_p": 0.9, "current_logloss": 0.693147, "candidate_logloss": 0.325083, "train_size": 400, "holdout_size": 100}
+}

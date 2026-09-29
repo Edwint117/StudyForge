@@ -1,0 +1,7 @@
+{
+  "_doc": "doc 05 §1 adoption rule, overfit/drift case: training period recalls 95%, but the newest 20% only 50%. Candidate p=.95 on holdout: -(.5 ln .95 + .5 ln .05) = 1.523513, worse than current ln 2 = .693147 -> keep current parameters.",
+  "current_p": 0.5,
+  "train": {"recalled": 380, "forgot": 20},
+  "holdout": {"recalled": 50, "forgot": 50},
+  "expected": {"adopt": false, "candidate_p": 0.95, "current_logloss": 0.693147, "candidate_logloss": 1.523513, "train_size": 400, "holdout_size": 100}
+}

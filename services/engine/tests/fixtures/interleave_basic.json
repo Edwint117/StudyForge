@@ -1,0 +1,10 @@
+{
+  "_doc": "doc 05 §3: 3 units x 5 cards, given grouped by unit in priority order (A1..A5, B1..B5, C1..C5). Step 1: remaining A5 B5 C5, no previous -> tie on count, first-seen A (index 0) -> A1. Step 2: A excluded, B5 = C5 -> B (first seen 5 < 10) -> B1. Step 3: A4 vs C5 (B excluded) -> C1. Step 4: A4 = B4 (C excluded) -> A2. The same pattern repeats, giving A B C cycles: A1 B1 C1 A2 B2 C2 ... A5 B5 C5. 0 adjacency violations; no questions, no confusables.",
+  "cards": [
+    {"item_id": "A1", "unit_id": "A"}, {"item_id": "A2", "unit_id": "A"}, {"item_id": "A3", "unit_id": "A"}, {"item_id": "A4", "unit_id": "A"}, {"item_id": "A5", "unit_id": "A"},
+    {"item_id": "B1", "unit_id": "B"}, {"item_id": "B2", "unit_id": "B"}, {"item_id": "B3", "unit_id": "B"}, {"item_id": "B4", "unit_id": "B"}, {"item_id": "B5", "unit_id": "B"},
+    {"item_id": "C1", "unit_id": "C"}, {"item_id": "C2", "unit_id": "C"}, {"item_id": "C3", "unit_id": "C"}, {"item_id": "C4", "unit_id": "C"}, {"item_id": "C5", "unit_id": "C"}
+  ],
+  "expected": ["A1", "B1", "C1", "A2", "B2", "C2", "A3", "B3", "C3", "A4", "B4", "C4", "A5", "B5", "C5"],
+  "expected_violations": 0
+}

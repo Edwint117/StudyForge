@@ -1,0 +1,11 @@
+{
+  "_doc": "doc 05 §5 readiness. Weights normalize to .5/.3/.2. pred = .5*.8 + .3*.5 = .55 (unstarted unit C adds 0). var = .25*.8*.2/4 + .09*.25/1 + .04*.25 (unstarted) = .0425; half-band = 1.96*sqrt(.0425) = .404064. Calibrated case: history fits actual = 1.0*pred + 0.1 exactly -> .65 / .245936 / 1.0 (upper clamped from 1.054064).",
+  "units": [
+    {"unit_id": "A", "weight": 50, "mastery": 0.8, "n_evidence": 4},
+    {"unit_id": "B", "weight": 30, "mastery": 0.5, "n_evidence": 1},
+    {"unit_id": "C", "weight": 20, "mastery": null, "n_evidence": 0}
+  ],
+  "expected": {"predicted": 0.55, "low": 0.145936, "high": 0.954064, "calibrated": false},
+  "calibration_history": [[0.5, 0.6], [0.7, 0.8], [0.9, 1.0]],
+  "expected_calibrated": {"predicted": 0.65, "low": 0.245936, "high": 1.0, "calibrated": true}
+}

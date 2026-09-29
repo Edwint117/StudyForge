@@ -1,0 +1,9 @@
+{
+  "_doc": "doc 05 §2 step 2 single touch, decay 0.1542, F = 0.980346, r_exam = 0.93. T = 5, S_after = 200. R(T,S) = (1 + 0.980346*5/200)^-0.1542 = 1.024509^-0.1542 = e^(-0.1542*0.024213) = e^-0.0037337 = 0.996273 >= 0.93. I_fsrs = (200/0.980346)*0.600997 = 204.0096*0.600997 = 122.61 >= T = 5. Both hold -> single touch at T - 1 = 4 days -> due 2026-10-05T00:00Z, and no more reviews before the exam.",
+  "reviewed_at": "2026-10-01T00:00:00Z",
+  "exam": {"exam_id": "E1", "starts_at": "2026-10-06T00:00:00Z", "units": [{"unit_id": "U1", "weight": 100, "concept_ids": ["k1"]}]},
+  "concept_ids": ["k1"],
+  "stability_after": 200,
+  "desired_retention": 0.9,
+  "expected": {"kind": "single_touch", "r_exam": 0.93, "r_at_exam": 0.996273, "i_fsrs": 122.61, "i_cap": 2.125, "interval_days": 4.0, "due_at": "2026-10-05T00:00:00Z"}
+}

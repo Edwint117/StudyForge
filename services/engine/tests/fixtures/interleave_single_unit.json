@@ -1,0 +1,8 @@
+{
+  "_doc": "doc 05 §3: one unit only (k = 1). No other group ever has remaining items, so consecutive same-unit items are allowed; order is the candidate (priority) order unchanged. 3 same-unit adjacencies, none avoidable -> adjacency_violations = 0.",
+  "cards": [
+    {"item_id": "u1", "unit_id": "U"}, {"item_id": "u2", "unit_id": "U"}, {"item_id": "u3", "unit_id": "U"}, {"item_id": "u4", "unit_id": "U"}
+  ],
+  "expected": ["u1", "u2", "u3", "u4"],
+  "expected_violations": 0
+}
