@@ -1,0 +1,13 @@
+{
+  "_doc": "doc 05 §5. Only a fresh attempt (score 0.6) + a never-reviewed card: weights renormalize over perf alone -> mastery 0.6; unreviewed card is excluded from retention and evidence; confidence 1/8. The second case has no evidence -> null ('not started').",
+  "now": "2026-10-01T00:00:00Z",
+  "cases": [
+    {
+      "cards": [{"stability": null, "last_review": null}],
+      "scored": [{"score": 0.6, "at": "2026-10-01T00:00:00Z"}],
+      "feynman": [],
+      "expected": {"mastery": 0.6, "confidence": 0.125, "components": ["perf"]}
+    },
+    {"cards": [], "scored": [], "feynman": [], "expected": {"mastery": null, "confidence": 0.0, "components": []}}
+  ]
+}
