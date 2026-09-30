@@ -1,0 +1,1 @@
+-- Foundation seed. Product seeds arrive with their owning milestone migrations.

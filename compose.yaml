@@ -1,0 +1,26 @@
+name: studyforge
+services:
+  engine:
+    build: ./services/engine
+    image: studyforge-engine:m0
+    env_file: .env.engine.local
+    ports:
+      - "127.0.0.1:8080:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    read_only: true
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 1g
+    cpus: 1
+    init: true
+    stop_grace_period: 30s
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz', timeout=5)"]
+      interval: 30s
+      timeout: 6s
+      retries: 3
+# Sandbox intentionally absent until ADR-0020 is resolved. This is not the full M0 three-service gate.

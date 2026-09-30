@@ -1,0 +1,26 @@
+[
+  {
+    "path": "/wake",
+    "body": "{\"queue\":\"default\"}",
+    "secret": "fixture-only-wake-key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "timestamp": 1800000000,
+    "nonce": "11111111-1111-4111-8111-111111111111",
+    "signature": "v1=43bf373209c364fb393112ba53559a64d5d25bb14dcc9a57dcc24ab974ecb241"
+  },
+  {
+    "path": "/rpc/sympy-equivalent",
+    "body": "{\"answer\":\"π + x\",\"expected\":\"x + π\"}",
+    "secret": "fixture-only-rpc-key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "timestamp": 1800000000,
+    "nonce": "11111111-1111-4111-8111-111111111111",
+    "signature": "v1=c66405b1b3517d101cf24fadbb78f316790207c79f365c4459bee555cc45a5cd"
+  },
+  {
+    "path": "/rpc/run-code",
+    "body": "{\"language\":\"python\",\"source\":\"print(1)\\n\"}",
+    "secret": "fixture-only-rpc-key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "timestamp": 1800000000,
+    "nonce": "11111111-1111-4111-8111-111111111111",
+    "signature": "v1=e6ea2ad5ae51b82206bc1bae8644c2e64250b492fde562c0449d306612e053e5"
+  }
+]

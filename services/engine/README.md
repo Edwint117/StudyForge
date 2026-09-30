@@ -71,6 +71,8 @@ must load the same fixture files and produce the same results (M7 parity test).
 | `billing/pricing.py` | doc 07 §2/§5–6: prices, month-end-anchored UTC periods (`add_months`, `period_bounds`, `period_index`), `preview_change()` proration with the beta discount and account credit, gapless `next_invoice_number()` |
 | `billing/ledger.py` | Mock provider state machine: `confirm_checkout`, `start_trial`, `change_plan`, `cancel`, `resume`, `tick` (renewals/period-end changes/grace expiry), `simulate_payment_failure`/`simulate_recovery`; emits versioned `ProviderEvent`s |
 | `billing/events.py` | `handleBillingEvent` reference: `apply_event`/`apply_all` (idempotent, order-tolerant), transition `Effect`s (audit/email/entitlement sync), `effective_plan`, `dunning_reminders`, `downgrade_impact`, `reconcile` |
+| `srs/session.py` | SRS-06/09: `build_session()` for due/exam/custom/crunch/warm-up, `NewCardPolicy` + `daily_new_limit()` (ramp-in, backlog guard), `study_day()`, `offline_prefetch()` (200 cards + media), `due_count()` |
+| `srs/sync.py` | SRS-09: `reconcile_batch()` (idempotent `client_review_id` merge, rejections, per-card replay in `reviewed_at` order with rewritten `state_before/after`, warm-up excluded), `merge_logs()` |
 
 Not here, by design: code-run checks (`code_tests`, sandbox adapter), `llm_keypoints` (LLM gateway), and FSRS
 state transitions (ts-fsrs online, py-fsrs for the optimizer).
@@ -80,12 +82,12 @@ state transitions (ts-fsrs online, py-fsrs for the optimizer).
 explaining the arithmetic): `mastery_components`, `mastery_missing_components`, `readiness_band`,
 `cram_queue_order`, `warmup_selection`, `optimizer_adopt`, `optimizer_reject`, `crunch_interval_cap`,
 `crunch_single_touch`, `crunch_priority_order`, `crunch_multi_exam`, `interleave_basic`, `interleave_single_unit`,
-`interleave_confusables`, `billing_month_end_anchors`, `billing_proration`, `billing_lifecycle`.
+`interleave_confusables`, `billing_month_end_anchors`, `billing_proration`, `billing_lifecycle`, `session_due_mix`, `offline_sync`.
 
 ## Commands
 ```bash
 uv sync
-uv run pytest          # 414 tests incl. hypothesis property tests
+uv run pytest          # 424 tests incl. hypothesis property tests
 uv run ruff check . && uv run ruff format --check .
 uv run mypy engine     # strict
 ```
