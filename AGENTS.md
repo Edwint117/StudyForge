@@ -31,7 +31,10 @@ StudyForge is a B2C SaaS study platform (Next.js + Supabase + Python engine on G
 - Route handler shape: `requireUser()` → parse (zod) → `core.<service>()` → respond (problem+json on error).
 - Python: ruff + mypy --strict; async psycopg; SQL in `.sql` files next to the code that uses it.
 - Tests live next to the code (`*.test.ts`, `test_*.py`); E2E tests go in `apps/web/e2e`.
-- Commits: Conventional Commits. Branch per milestone: `m<N>-<slug>`.
+- Commits: Conventional Commits, written the way the owner wants them read on GitHub; see [docs/setup/COMMIT_STYLE.md](docs/setup/COMMIT_STYLE.md) and follow it for every commit and push. Branch per milestone: `m<N>-<slug>`.
+
+## Who does what
+Three agents share the work; the split and the rules for each are in [docs/handoff/WORKSPLIT.md](docs/handoff/WORKSPLIT.md). In short: Codex owns screens and styling in `apps/web` (not `app/api`), Claude owns API routes, migrations/RLS, `packages/*`, engine/job wiring, infra and delivery scripts and publishes each slice's contract before UI work starts, and Gemini writes tests only (see `GEMINI.md`). Milestone order is unchanged. One branch or worktree per agent per slice; never share a working directory.
 
 ## Session protocol
 Start by reading `PROGRESS.md` and summarizing the current state. End by updating `PROGRESS.md` and the checklist. Ask the human for 🔑 items once, clearly, and keep working on everything else.

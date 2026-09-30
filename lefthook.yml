@@ -1,0 +1,12 @@
+pre-commit:
+  commands:
+    secrets:
+      run: pnpm secrets:staged
+commit-msg:
+  commands:
+    conventional:
+      run: pnpm exec tsx scripts/setup/check-commit-msg.ts {1}
+pre-merge-commit:
+  commands:
+    verified-merge:
+      run: pnpm exec tsx scripts/release/merge-guard.ts --hook

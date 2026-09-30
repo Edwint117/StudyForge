@@ -37,7 +37,7 @@ Build billing **exactly as a real SaaS would**: plans, a pricing page, checkout,
 Principle: **reviewing your own material is never paywalled.** Only AI compute and premium adapters scale by plan.
 
 ## 3. Entitlements model
-- `billing.plans.entitlements jsonb`: `{ features: {calendar_oauth: true, strict_sandbox: true, fsrs_optimizer: true, cheatsheet_pdf_clean: true, premium_stt: "allowed"|"default"|false, ...}, limits: {courses_active: 2, uploads_per_month: 15, upload_max_mb: 25, storage_mb: 500, audio_seconds_per_month: 3600, ocr_pages_per_month: 30, cards_generated_per_month: 300, tutor_messages_per_day: 20, feynman_per_month: 10, mock_exams_per_month: 1, code_runs_per_day: 50, ai_cost_micros_per_day: 50000} }`
+- `billing.plans.entitlements jsonb`: `{ features: {calendar_oauth: true, strict_sandbox: true, fsrs_optimizer: true, cheatsheet_pdf_clean: true, premium_stt: "allowed"|"default"|false, ...}, limits: {courses_active: 2, uploads_per_month: 15, upload_max_mb: 25, storage_mb: 500, audio_seconds_per_month: 3600, ocr_pages_per_month: 30, cards_generated_per_month: 300, tutor_messages_per_day: 13, feynman_per_month: 10, mock_exams_per_month: 1, code_runs_per_day: 50, ai_cost_micros_per_day: 50000} }`
 - `billing.entitlement_overrides`: admin grants (for example, +500 OCR pages until a date), recorded in the audit log.
 - **Resolution:** `private.effective_entitlements(user_id)` = the active subscription's plan (or Free) ⊕ overrides. It is cached per request.
 - **Enforcement:**

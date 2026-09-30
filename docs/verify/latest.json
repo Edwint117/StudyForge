@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "kind": "verify",
+  "commit": "6109111b2a752c9ec428922d8f6d97244a4d6d72",
+  "tree": "634c8528321ffcf29d42d5c092447ca8bc7812b2",
+  "branch": "main",
+  "dirty": false,
+  "partial": false,
+  "startedAt": "2026-09-29T05:45:16.391Z",
+  "finishedAt": "2026-09-29T05:48:36.237Z",
+  "stages": [
+    {
+      "id": "install",
+      "title": "Frozen installs (pnpm, uv)",
+      "seconds": 1.096,
+      "outcome": "pass",
+      "note": "pnpm install, uv sync"
+    },
+    {
+      "id": "lint",
+      "title": "eslint, prettier, ruff",
+      "seconds": 7.308,
+      "outcome": "pass",
+      "note": "eslint, prettier, ruff check, ruff format"
+    },
+    {
+      "id": "typecheck",
+      "title": "tsc, mypy --strict",
+      "seconds": 5.087,
+      "outcome": "pass",
+      "note": "tsc, mypy"
+    },
+    {
+      "id": "unit",
+      "title": "Vitest and pytest unit suites",
+      "seconds": 27.235,
+      "outcome": "pass",
+      "note": "vitest, pytest"
+    },
+    {
+      "id": "database",
+      "title": "Local Supabase, migrations, pgTAP",
+      "seconds": 8.703,
+      "outcome": "pass",
+      "note": "migration up, pgTAP"
+    },
+    {
+      "id": "integration",
+      "title": "Engine integration suite",
+      "seconds": 10.37,
+      "outcome": "pass",
+      "note": "integration"
+    },
+    {
+      "id": "e2e",
+      "title": "Playwright (chromium) with axe",
+      "seconds": 25.462,
+      "outcome": "pass",
+      "note": "playwright"
+    },
+    {
+      "id": "semgrep",
+      "title": "Semgrep SAST",
+      "seconds": 57.585,
+      "outcome": "pass",
+      "note": "semgrep"
+    },
+    {
+      "id": "secrets",
+      "title": "gitleaks (staged and full history)",
+      "seconds": 3.97,
+      "outcome": "pass",
+      "note": "staged, history"
+    },
+    {
+      "id": "audit",
+      "title": "pnpm audit, pip-audit, OSV",
+      "seconds": 14.25,
+      "outcome": "pass",
+      "note": "pnpm audit, export lock, pip-audit, osv-scanner"
+    },
+    {
+      "id": "sbom",
+      "title": "CycloneDX SBOMs from the lockfiles",
+      "seconds": 1.712,
+      "outcome": "pass",
+      "note": "pnpm sbom, uv sbom"
+    },
+    {
+      "id": "image",
+      "title": "Engine image build and Trivy scan",
+      "seconds": 36.967,
+      "outcome": "pass",
+      "note": "no fixable HIGH/CRITICAL findings"
+    },
+    {
+      "id": "evals",
+      "title": "Fast eval subset",
+      "seconds": 0.1,
+      "outcome": "pass",
+      "note": "evals"
+    }
+  ]
+}

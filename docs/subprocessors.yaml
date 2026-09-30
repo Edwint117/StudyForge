@@ -1,0 +1,33 @@
+version: 1
+reviewed: '2026-09-28'
+status: engineering_inventory_pending_legal_review
+vendors:
+  - id: supabase
+    purpose: database_auth_storage_queues
+    data: [account, user_content, credentials]
+    status: configured
+  - id: google_cloud
+    purpose: engine_compute_registry_secrets_logging
+    data: [job_payloads, runtime_credentials, operational_metadata, container_images]
+    status: foundation_applied_runtime_not_deployed
+  - id: anthropic
+    purpose: configured_llm_provider
+    data: [selected_content, prompts, model_outputs]
+    status: key_validated_no_inference_in_m0
+  - id: posthog
+    purpose: consent_gated_product_analytics
+    data: [pseudonymous_events]
+    status: read_only_key_check_only
+  - id: langfuse
+    purpose: ai_observability
+    data: [redacted_ai_trace_metadata]
+    status: read_only_key_check_only
+  - id: sentry
+    purpose: error_tracking
+    data: [redacted_errors, release_metadata]
+    status: engine_integration_wired_scrubbed_dsn_in_secret_manager_web_pending
+  - id: better_stack
+    purpose: uptime_and_operational_alerts
+    data: [health_status, operational_metadata]
+    status: read_only_key_check_only
+optional_adapters_disabled: [deepgram, assemblyai, mistral, voyage, openai]

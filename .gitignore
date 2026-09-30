@@ -34,3 +34,9 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .idea/
+# Local tool binaries and scratch output (never credentials in reports)
+.tools/
+.cache/
+.tmp/
+*.tsbuildinfo
+apps/web/next-env.d.ts

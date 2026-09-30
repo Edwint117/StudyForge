@@ -13,7 +13,7 @@ const original = execFileSync('git', ['show', 'f1544f9:' + checklistPath], { cwd
 const checklist = read(checklistPath);
 const plan = read('docs/plan/M0-M11-task-breakdown.md');
 const triage = read('docs/plan/checklist-triage.md');
-const items = (text) => [...text.matchAll(/^- \[[ x]\] (.+)$/gm)].map((m) => m[1].replace(/^DEFERRED /, '').replace(/ — DEFERRED until .*$/, '').trim());
+const items = (text) => [...text.matchAll(/^- \[[ x]\] (.+)$/gm)].map((m) => m[1].replace(/^DEFERRED /, '').replace(/ — DEFERRED until .*$/, '').replace(/ — Evidence: .*$/, '').trim());
 assert.deepEqual(items(checklist), items(original), 'Original item text/order changed');
 assert.equal(items(checklist).length, 1147);
 const notes = [...checklist.matchAll(/^\*\*(.+?)\*\* — priority:/gm)].map((m) => m[1]);
@@ -40,6 +40,8 @@ for (const file of ['docs/plan/M0-M11-task-breakdown.md', 'docs/plan/checklist-t
   }
 }
 assert.equal((checklist.match(/^- \[ \] DEFERRED /gm) || []).length, 176);
-assert.equal((checklist.match(/^- \[x\]/gm) || []).length, 0);
-assert.equal((checklist.match(/^- \[ \] (?!DEFERRED )/gm) || []).length, 971);
-console.log(JSON.stringify({ notes: notes.length, originalItemsPreserved: 1147, tasks: taskRows.length, prdStoriesCovered: stories.length, localLinksChecked: linkCount, deferred: 176, open: 971, verifiedImplementationItems: 0 }, null, 2));
+const verified = (checklist.match(/^- \[x\]/gm) || []).length;
+const open = (checklist.match(/^- \[ \] (?!DEFERRED )/gm) || []).length;
+for (const match of checklist.matchAll(/^- \[x\] (.+)$/gm)) assert(match[1].includes(' — Evidence: '), 'Completed item lacks evidence');
+assert.equal(open + verified + 176, 1147);
+console.log(JSON.stringify({ notes: notes.length, originalItemsPreserved: 1147, tasks: taskRows.length, prdStoriesCovered: stories.length, localLinksChecked: linkCount, deferred: 176, open, verifiedImplementationItems: verified }, null, 2));

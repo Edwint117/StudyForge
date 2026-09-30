@@ -1,0 +1,22 @@
+[extend]
+useDefault = true
+
+# Gitleaks mistakes Python's tokens=tokens parameter for a credential.
+# Narrow to this exact expression in the reviewed planner fixture, including history.
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "Planner fixture token-count keyword argument, not a credential"
+condition = "AND"
+paths = ['''^services/engine/tests/test_planner\.py$''']
+regexTarget = "line"
+regexes = ['''^\s*unit_id=f"\{prefix\}\{i\}", exam_id=exam, title=f"Unit \{i\}", weight=10 \+ i, tokens=tokens, syllabus_order=i\s*$''']
+
+# Synthetic base64url WebAuthn fixture values (each decodes to an obviously-fake placeholder like
+# "fake-signature"), not credentials. Narrow to this exact file, including history.
+[[rules.allowlists]]
+description = "Passkey preview fixture: synthetic WebAuthn field values, not credentials"
+condition = "AND"
+paths = ['''^apps/web/components/identity/preview/fixtures\.ts$''']
+regexTarget = "line"
+regexes = ['''^\s*(id|rawId|clientDataJSON|authenticatorData|signature|userHandle): 'Zm[A-Za-z0-9+/]*',?\s*$''']

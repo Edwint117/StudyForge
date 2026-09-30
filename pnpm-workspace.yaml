@@ -1,0 +1,14 @@
+# nosemgrep: package_managers.pnpm.pnpm-trust-policy.pnpm-trust-policy -- trustPolicy no-downgrade rejects the reviewed lockfile (a trust downgrade in at least why-is-node-running@3.2.2); owner decision, tracked in PROGRESS.md
+packages:
+  - apps/*
+  - packages/*
+# nosemgrep: package_managers.pnpm.pnpm-missing-minimum-release-age.pnpm-minimum-release-age -- 24h (not 7 days): the reviewed lockfile already pins versions younger than 7 days; revisit when dependencies are next bumped
+minimumReleaseAge: 1440
+blockExoticSubdeps: true
+managePackageManagerVersions: false
+allowBuilds:
+  lefthook: true
+  esbuild: true
+  supabase: true
+  '@parcel/watcher': false
+  '@swc/core': false

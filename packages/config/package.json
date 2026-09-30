@@ -1,0 +1,13 @@
+{
+  "name": "@studyforge/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "dotenv": "18.0.4",
+    "zod": "4.6.5"
+  }
+}

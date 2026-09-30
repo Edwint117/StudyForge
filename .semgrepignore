@@ -1,0 +1,2 @@
+# Shared cross-runtime signature fixtures use obviously fake keys that trip the generic-secret rules.
+packages/engine-client/fixtures/

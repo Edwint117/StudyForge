@@ -1,69 +1,130 @@
 # StudyForge: Build Progress
 
-_Last updated: 2026-09-27 by Codex, first-session planning_
+_Last updated: 2026-09-29 by Codex: merged verified `main` and completed an accessibility/translation review of the existing identity components; M0 gates remain open_
+
+## ⚠ Read first
+
+- **M0 is NOT complete and no gate or tag is claimed.** This pass built the delivery pipeline and production preparation; nothing has run against production. The owner's commands are in [M0_OWNER_RUNBOOK.md](docs/setup/M0_OWNER_RUNBOOK.md). Claude Code is blocked from Terraform apply, production database access and production deploys.
+- **Cloud state (2026-09-28):** the engine is **deployed to production**: Cloud Run service `sf-engine` and job `sf-engine-long` run image digest built from `962d720`; the 7 migrations are applied to the production Supabase project; the engine role, secrets, Supabase auth settings and database SSL enforcement are in place. The deploy's smoke test (`/health` plus a signed `/wake`) and ZAP baseline passed. Rollback and the web tier against production are still untested. Two things the first deploys taught us: Cloud Run reserves `/healthz` on public URLs (ADR-0022, use `/health`), and the canary URL must be derived, not read from a Terraform output.
+- **Decisions confirmed by the owner:** sandbox/code-run deferred ([ADR-0020](docs/adr/0020-sandbox-runtime-proposal.md), alternative 2); Vector log container repaired; Free tutor limit 13/day; new-card defaults. The M0 gate's "all 3 services" line therefore needs an owner ruling that the sandbox is out of the M0 gate.
+- **Working rule from the owner:** budget is tight; thorough testing is the owner's later pass. Report skipped or unrun checks; never claim them.
+- **Engine ownership:** `engine/transport`, `engine/jobs`, `engine/app.py`, `engine/runtime.py`, `engine/ops` are wired modules. Claude added `errors.py`, `jobs/health.py` and small wiring edits in this pass at the owner's request.
+- **Merge `engine-core` at every clean point**, checking `git log HEAD..engine-core` first. Original merge: `e8dd778`; reference/prompt merge: `fcc926f`. Read [ENGINE_CORE_HANDOFF.md](docs/handoff/ENGINE_CORE_HANDOFF.md), including the module table and Claude's claims, before each task. Never reimplement listed logic.
+- **Ownership changed 2026-09-28 (owner decision):** Codex = screens/styling in `apps/web` (not `app/api`); Claude = API routes, migrations/RLS, `packages/*`, engine/job wiring, infra, delivery scripts, contracts, pure logic and prompts; Gemini = tests only. Full rules in [WORKSPLIT.md](docs/handoff/WORKSPLIT.md). Port crunch/interleaving/billing against the exact shared engine JSON fixtures at their owning milestones.
+- Latest implementation merge: `18c911e` includes Claude's billing state machine, session and offline references. These remain unwired until their owning milestones. Codex transport commit: `71ca578`; web foundation commit: `1f581d7`.
+- The merged reference/prompt baseline passed **396 tests**, Ruff and strict mypy (49 source files). New Codex-owned transport files add 25 passing tests; strict mypy now covers 51 source files. FastAPI, persistent replay protection, jobs and database integration remain open.
+- Corrected rules: one global embedding model; `cards.cloze_index`; `concept_edges.status` tombstones; planner in Python jobs; Free tutor on Haiku with daily quotas 13/60/200; mock build/grade/regrade exempt from the daily AI cost cap but still subject to monthly/global limits. Specs 02/03/05/06/07 re-read after merge. Fixed the remaining stale `20` in doc07's example to `13`.
+- **Plan approval was received.** Continue implementation; do not ask for plan approval again.
+- Preserve `UV_PYTHON_INSTALL_DIR`. Python 3.12.14 works in `%USERPROFILE%\.uv\python`. This desktop process did not inherit the owner's newly installed tool paths; `.tools/uv` and `.tools/google-cloud-sdk` are working fallbacks. Google Cloud is already signed in and the project read check passes.
 
 ## Current milestone
-M0: Foundation & delivery pipeline. **Planning prepared; awaiting human approval before application code.** No milestone gate has passed. Local branch: `m0-foundation`.
+
+M0: Foundation & delivery pipeline, **in progress** on `m0-foundation`. Engine, jobs, local container, delivery scripts, ops alerting and production preparation are implemented, committed and deployed. Production provisioning, deploy, `start:prod`, the real `rollback:prod` and the job-recovery (kill mid-job) test have all run and passed (2026-09-29). The only doc-08 gate line left open is the fresh-clone check, blocked on an owner decision about whether the deferred sandbox (ADR-0020) counts toward its "all 3 services" wording. No milestone gate has passed yet. Do not start M1.
+
+Owner exception (2026-09-28): fixture-backed design and component work against Claude's published M1 contract is authorized while M0 gates remain unconfirmed. On `m1-identity-ui`, components consume the published resend, legal-config, field-code, retry-timing, Google onboarding, token-exchange and passkey schemas. The preview uses synthetic fixtures, next-intl copy, form focus/error states, Google age/terms onboarding, schema-backed passkey adapter fixtures, security/session/consent panels, MFA enrollment and recovery-code acknowledgment. The action-token preview strips verification/magic-link tokens from the URL before its fixture callback. No M1 app page or API integration, server session exchange or live WebAuthn was added. On 2026-09-29, merged `main` through `b97f7ee` and polished the existing UI: reset-password and authenticator validation text is included in accessible descriptions, recovery-code download filenames use next-intl, and the MFA passkey alternative respects lockout/rate-limit blocking. Focused identity Playwright/axe passes all 8 tests. M0 remains gate-open; no M1 acceptance or route integration is claimed. M0 gate confirmation is still required before further M1 implementation.
 
 ## Milestone status
-| Milestone | Status | Gate passed | Tag |
-|---|---|---|---|
-| M0 Foundation | planning awaiting approval | no | — |
-| M1 Identity & security | todo | no | — |
-| M2 SaaS shell | todo | no | — |
-| M3 Plans & mock billing | todo | no | — |
-| M4 Ingestion & KG | todo | no | — |
-| M5 Planner & calendars | todo | no | — |
-| M6 Comprehension | todo | no | — |
-| M7 Retention (FSRS) | todo | no | — |
-| M8 Diagnostics | todo | no | — |
-| M9 Exam-day | todo | no | — |
-| M10 Data rights & admin | todo | no | — |
-| M11 Pre-launch hardening | todo | no | — |
 
-## Completed this session
-- Read kickoff/AGENTS, all source specifications and the complete engineering checklist.
-- Prepared [145 half-day slices across M0–M11](docs/plan/M0-M11-task-breakdown.md), plus milestone gate reviews, with PRD/checklist references and acceptance evidence.
-- Prepared [183-note checklist triage](docs/plan/checklist-triage.md), including mixed-note scope, human actions, unresolved conflicts and future triggers.
-- Preserved all 1,147 checklist items; added stable anchors and 176 authorized deferrals. No implementation completion claimed.
-- Inventoried local tools in [TOOLS.md](docs/setup/TOOLS.md); Docker daemon is running. Python launcher finds no installed runtimes; install Python 3.12 via uv during approved setup.
-- Confirmed .env.keys/.env.local/.env.production are git-ignored without reading their values. Environment connectivity has not been validated.
+| Milestone                | Status                                                                              | Gate passed | Tag |
+| ------------------------ | ----------------------------------------------------------------------------------- | ----------- | --- |
+| M0 Foundation            | deployed + rolled back + redeployed; only fresh-clone check (sandbox decision) open | no          | —   |
+| M1 Identity & security   | todo                                                                                | no          | —   |
+| M2 SaaS shell            | todo                                                                                | no          | —   |
+| M3 Plans & mock billing  | todo                                                                                | no          | —   |
+| M4 Ingestion & KG        | todo                                                                                | no          | —   |
+| M5 Planner & calendars   | todo                                                                                | no          | —   |
+| M6 Comprehension         | todo                                                                                | no          | —   |
+| M7 Retention (FSRS)      | todo                                                                                | no          | —   |
+| M8 Diagnostics           | todo                                                                                | no          | —   |
+| M9 Exam-day              | todo                                                                                | no          | —   |
+| M10 Data rights & admin  | todo                                                                                | no          | —   |
+| M11 Pre-launch hardening | todo                                                                                | no          | —   |
 
-## Checklist tally (ENGINEERING_CHECKLIST.md)
-| Section | Total | Done | N/A | Deferred | 🔑 Blocked | Open |
-|---|---|---|---|---|---|---|
-| BUILD | 927 | 0 | 0 | 56 | 0 | 871 |
-| PRE-LAUNCH | 99 | 0 | 0 | 19 | 0 | 80 |
-| LAUNCH | 20 | 0 | 0 | 0 | 0 | 20 |
-| GROWTH | 49 | 0 | 0 | 49 | 0 | 0 |
-| SCALE | 52 | 0 | 0 | 52 | 0 | 0 |
-| **Total** | **1147** | **0** | **0** | **176** | **0** | **971** |
+## Completed
+
+- **Codex M0-17 web Sentry (2026-09-28, `m0-ui`):** browser, Node and edge initialization; request-error hook with UUID-only correlation; allowlisted error events strip messages, user/request data, breadcrumbs and arbitrary stack URLs. Tracing/replay disabled. Localized global error fallback and source-map upload configuration use existing Sentry variables. Four Playwright tests pass against a fixture build, including intercepted browser reporting and scrub regressions. All `verify:fast --allow-dirty` stages pass; the tool correctly reports INCOMPLETE for partial/non-gating verification. No production release/source-map delivery is claimed. Codex now waits for M0 gates and Claude's M1 contract.
+- **Committed the M0 tree** in Conventional-Commit pieces (db, engine, infra/scripts, docs); the staged secret scan passed on each commit.
+- **Sentry (engine):** scrubbed error reporting (`engine/errors.py`), initialised in the service and the batch entrypoint. `SENTRY_DSN` travels through Secret Manager (`sf-sentry-dsn`, mapped from `NEXT_PUBLIC_SENTRY_DSN` by `push-secrets`); `ENGINE_RELEASE` (git SHA) is set by deploy because Cloud Run jobs have no `K_REVISION`. The local container gets the DSN when present.
+- **Delivery pipeline (`scripts/release/`):** `pnpm verify` (+ `verify:fast`, `--only`, `--commit`; writes `docs/verify/latest.{md,json}`), merge guard (`merge:guard`, `merge:main`, `pre-merge-commit` hook; refuses stale, failing, partial, dirty or skipped reports; tolerates a report-only follow-up commit), Conventional-Commit `commit-msg` hook, `nightly`, `rehearse`, `deploy:prod` (guard, typed confirmation, rehearsal, Trivy, push by digest with SBOM/provenance, expand-only migration runner, Terraform canary at 10% behind a tag, wake config, smoke, ZAP), `rollback:prod`. Unit tests cover the guard, classifier, drift and provisioning helpers.
+- **Dry-runs performed:** rehearsal on a disposable Supabase image (7 migrations, 40 pgTAP assertions pass); `deploy:prod --dry-run` (rehearsal, engine image build, real Trivy scan with no fixable HIGH/CRITICAL); `rollback:prod --dry-run` and `supabase:settings` read-only (gcloud and Management API reads work). Claude did not touch the production database (access was denied by the auto classifier, by design).
+- **Bug found and fixed:** the engine image had no Supabase CA, so `sslmode=verify-full` could not work in Cloud Run. The CA is now copied into the image, `sslrootcert` is required in production settings, and a test keeps the two certificate copies identical.
+- **Ops (M0-16/M0-17):** migration 0700 adds `private.job_health()`, 30/90-day job retention with pgmq archive purge, and a 5-minute health wake; the engine reports dead/stuck/backlogged jobs to Sentry. `pnpm env:provision-prod-engine` and `pnpm supabase:settings` are prepared for the owner. ADR-0021 records the migration-runner and rehearsal design.
+- Inventories (`docs/data-map.md`, `costs.md`, `subprocessors.yaml`) updated for retention, Sentry and deploy tooling.
+- Added dedicated non-BYPASSRLS engine role, persistent replay protection, atomic Postgres rate limiting, tenant-owned jobs with four RLS policies, idempotent enqueue, lease fencing, heartbeat/VT extension and completion/retry/archive SQL. Local worker password is generated/provisioned privately by `pnpm deploy:local`.
+- Added FastAPI `/healthz`, signed `/wake` request-lifetime drain, bounded SymPy RPC, async psycopg adapters, local poll mode, signed pg_net wake trigger, two-minute pg_cron sweep, long-job dispatch and fenced batch entrypoint. Only foundation probe handlers are registered; feature handlers remain at their owning milestones. `engine/transport`, `engine/jobs`, `engine/app.py`, `engine/runtime.py` and `engine/ops` are Codex-owned; no Claude-claimed eval code was edited.
+- Built non-root engine image and started it with read-only filesystem, dropped capabilities, process/memory limits and a minimal private environment. `/healthz` and Compose health are green. Terraform engine/service/job/secret/IAM/budget configuration drafted and provider schema validated before the later foundation-phase split; no apply or deployment yet.
+- PostHog owner correction synchronized through the private key-merge helper; production bootstrap now passes all applicable read-only checks. Pending cloud runtime values remain agent work, not a passed M0 gate.
+- Codex-owned signed transport foundation: `packages/engine-client` signs exact bytes; `engine/transport/signatures.py` verifies scope/path/body/timestamp/nonce, ±60-second window and separate wake/RPC keys. Shared cross-runtime fixtures pass. Mandatory atomic shared nonce-store interface has no in-process production fallback. [Wire contract and outstanding integration](docs/architecture/engine-signing.md).
+- Resumed the unfinished M0 web foundation: pnpm/Turbo workspace, Next.js marketing route group, next-intl English shell, health endpoint, security headers and correlation IDs. Production fixture build and two Chromium E2E tests pass (keyboard skip link, narrow viewport, empty browser storage, health/404/405 and headers).
+- Added explicit Vitest configuration to disable automatic environment-file loading and restrict discovery to unit tests; all 19 tests pass. Windows owner-only ACL tests require execution outside the restricted sandbox.
+- Planning: [145 half-day slices](docs/plan/M0-M11-task-breakdown.md), [183-note checklist triage](docs/plan/checklist-triage.md), 1,147 preserved checklist items and 176 authorized deferrals. Planning commit `17409a4`.
+- Merged engine-core; verified its locked Python environment and reused all modules unchanged.
+- Added pnpm workspace/lockfile, strict TypeScript, ESLint/Prettier and Vitest. Pinned TypeScript 6.0.3 because typescript-eslint does not support 7.0.2. Disabled pnpm manager auto-switching to fix the desktop fallback's missing temporary executable.
+- Added strict shared config catalog/runtime loader, annotated generated `.env.example`, [ENV_SETUP.md](docs/setup/ENV_SETUP.md), secret-safe prepare/merge/local-sync/check/cloud-upload helpers. Real files were prepared and merged without printing values. Owner-only ACLs and unchanged-file idempotence are tested; real env files remain ignored.
+- Fixed Windows PowerShell 5 inheriting PowerShell 7's incompatible module path: private-file permissions now use the framework ACL API directly. Bootstrap preserves the working uv installation directory.
+- Production read-only checks pass: Supabase auth/public/server/management and database password with verified CA+hostname, Anthropic models, Langfuse, Better Stack, Google Cloud operator/project. OAuth/Sentry checks are format-only. No inference requests or telemetry events sent.
+- Local Supabase started and local credentials synchronized privately. Local auth/public/server checks pass. **The optional Supabase Vector log collector is restarting** (`HyperLegacyError`); its root cause is unresolved, so full-stack health is not claimed.
+- Installed Lefthook pre-commit secret scan. A separate temporary-index test proves a synthetic credential fails the actual hook and a clean index passes without printing the token. History scan passes with one exact-expression exception for the planner fixture's `tokens=tokens` argument. Full `pnpm verify` integration remains open.
+
+## Checklist tally
+
+| Section    | Total    | Done  | N/A   | Deferred | 🔑 Blocked | Open    |
+| ---------- | -------- | ----- | ----- | -------- | ---------- | ------- |
+| BUILD      | 927      | 1     | 0     | 56       | 0          | 870     |
+| PRE-LAUNCH | 99       | 0     | 0     | 19       | 0          | 80      |
+| LAUNCH     | 20       | 0     | 0     | 0        | 0          | 20      |
+| GROWTH     | 49       | 0     | 0     | 49       | 0          | 0       |
+| SCALE      | 52       | 0     | 0     | 52       | 0          | 0       |
+| **Total**  | **1147** | **1** | **0** | **176**  | **0**      | **970** |
+
+Only the env-ignore/template item is closed. Other notes span unfinished M0 work and are not prematurely marked complete.
 
 ## Next 3 tasks
-1. Obtain approval of both planning documents, as required by kickoff First Session step 5.
-2. Execute the Second Step: bootstrap missing tools, finalize annotated env template/schema/setup, build secret-safe merge/check/push helpers, and validate local + production connectivity. Ask once for any missing owner key names; fill agent-owned values during M0.
-3. Resolve the documented M0 contract conflicts and sandbox feasibility, write ADRs 0001–0019, then build and verify the first foundation slices. No M1 work before the M0 gate passes.
+
+1. **Owner:** the only doc-08 gate item left open is the fresh-clone `pnpm setup && pnpm dev` check, and it needs one decision first — does the deferred sandbox (ADR-0020) count against its "all 3 services" wording, or is it out of scope for M0? Everything else on the gate is done.
+2. **Tests (agy):** batch 4 (Cloud Run long-job dispatch — `dispatch.py`/`entrypoint.py`, real M0 test debt, not optional) is ready in `docs/handoff/gemini-prompts/`.
+3. **M1:** contract fully answered across two rounds; Codex's fixture-backed identity screens, Google onboarding, passkey adapter and an accessibility pass are merged to `main`. Still blocked from wiring real routes until the sandbox decision closes the M0 gate.
 
 ## Blocked on human (🔑)
-| Item | Needed for | Env var / action | Asked on |
-|---|---|---|---|
-| Initial plan approval | Application code / Second Step | Review docs/plan/M0-M11-task-breakdown.md and checklist-triage.md; reply “Approved. Proceed to the Second Step.” | 2026-09-27 |
-| Business placeholders to fill (not a build blocker) | Go-live identity/legal/invoices | Fill central packages/core/company.ts placeholders when that file is implemented in M2 | Not requested yet |
 
-No credential failures have been observed: env scripts do not exist yet. Future human actions are scheduled in the task plan and doc10; they are not falsely marked code-complete blockers. Legal review, real-device checks and account attestations remain human responsibilities.
+| Item                                        | Needed for                                                                        | Env var / action                                                                                     | Asked on          |
+| ------------------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------- |
+| Production steps Claude Code cannot run     | Sentry secret slot, engine role, secret upload, settings, merge, deploy, rollback | [M0_OWNER_RUNBOOK.md](docs/setup/M0_OWNER_RUNBOOK.md)                                                | 2026-09-28        |
+| Sandbox and the M0 gate                     | "all 3 services" gate line                                                        | Rule that the deferred sandbox (ADR-0020) is excluded from the M0 gate, or reopen the hosting choice | 2026-09-28        |
+| Sentry alert rule                           | Someone is emailed on DLQ/stuck/backlog                                           | Add an alert on issues named DeadJobsAlert, StuckJobsAlert, BacklogAlert                             | 2026-09-28        |
+| Business placeholders (not a build blocker) | Go-live identity/legal/invoices                                                   | Fill central company placeholders after M2 implements them                                           | Not requested yet |
 
-## Decisions and risks to resolve
-See the plan's decision table. Main early items: four-policy vs select-only RLS; engine BYPASSRLS semantics; main-only deploy vs deploy-before-merge gate; no-backup Restore Testing applicability; Piston target-runtime compatibility. Later: polling/push acceptance, retained records vs deletion, and local-web availability measurement. No silent spec substitution is authorized.
+## Decisions and ADRs
 
-## ADRs written
-- None this session. ADR-0001–0019 are specified for M0, including 0019 which doc08's abbreviated list omits.
+ADRs 0001–0021 are now written under `docs/adr/` (0021: scripted migrations and image-based rehearsal, a deliberate deviation from ADR-0019's literal dump-restore wording). ADR-0007 resolves role-wide BYPASSRLS and the four-policy rule; ADR-0017 records candidate verification/main-only deployment ordering; ADR-0018 distinguishes schema rehearsal from data restore. ADR-0020 proposes alternatives to incompatible Piston-on-Cloud-Run hosting and awaits a decision. These documents do not imply implementation or gate completion.
 
 ## Verification
-- `node docs/plan/validate-planning.mjs` passed: 183 notes, 1,147 unchanged original item texts, 145 task rows, all 93 PRD story IDs covered, all active notes linked to task owners, and 1,383 valid local file/explicit-anchor links.
-- `git diff --check` passed before the documentation commit.
-- `pnpm verify` not run: no application manifests or verification pipeline exist. No build/deployment evidence or milestone completion claimed.
+
+- This pass: engine `pytest` (full suite), Ruff, strict mypy (73 files), `tsc`, ESLint and Prettier pass; `scripts/**` unit tests pass; rehearsal green (40 pgTAP assertions). The full `pnpm verify` result, including Playwright, Semgrep, audits and the image scan, is in `docs/verify/latest.md` when present; if that file is absent or FAIL, the pipeline has not passed.
+- Production evidence (owner-run 2026-09-28): first deploy reached `/health` 200 and a signed `/wake` 200, ZAP baseline no alerts; a canary deploy correctly held traffic and rolled back when my script mis-resolved the canary URL (fixed, redeployed, promoted). Local: kill-mid-job recovery test passes (`pnpm test:integration`).
+- Delegated test suite: agy (Antigravity CLI, Gemini) wrote 42 request-authentication edge-case tests against `docs/architecture/engine-signing.md`. Claude did not trust the self-report: ran the suite, then deliberately widened the ±60s timestamp window in the real code to confirm the tests actually fail on a real regression (they did, 2/2), then restored it. Zero findings recorded. Merged to `main`.
+- Codex: finished its last M0 item (web Sentry, scrubbed the same way as the engine's), then built fixture-backed M1 identity screens (signup, login, MFA, sessions, passkeys, account) against the contract with a component preview studio and filed 6 contract gaps. Claude answered all 6 (new `/auth/config/legal` and `/auth/email/verify/resend` routes, `retry_after_seconds` on problem+json, per-field error codes, documented one-time URL-token handoff, SimpleWebAuthn JSON conventions). Current component update consumes those published schemas; 3 further contract inconsistencies are recorded in `docs/handoff/CONTRACT_REQUESTS.md`.
+- **Owner-run production evidence (2026-09-29):** `pnpm start:prod` served the web tier against the cloud environment cleanly (this surfaced and led to fixing a real bug: `SANDBOX_URL` was required by config validation despite ADR-0020 deliberately leaving it empty, blocking `start:prod` entirely — fixed in `packages/config/src/catalog.ts`, proven with a test against the old schema first). `pnpm rollback:prod` (real run, not dry-run) rolled production back to the prior revision and confirmed `/health` green. `pnpm deploy:prod` immediately after brought production back to the latest commit: canary promoted, `/health` and a signed `/wake` both answered, ZAP baseline reported no alerts. **This closes the doc 08 "deploy + start:prod + rollback" gate line.**
+- Not run: fresh-clone setup (blocked on the sandbox scope decision below), k6, the optional eval-dataset backlog.
+- **Cross-session note (2026-09-28):** found two other Claude Desktop sessions active on this machine (one legitimately in the separate `studyforge-engine-core` worktree; one that had been editing the shared `studyforge` folder directly earlier). Checked git history to confirm nothing was lost or silently interleaved — it wasn't: its uncommitted `errors.py` work had already been captured in this session's first commit, `d5ccd74`, and it made no commits of its own. That session agreed to stay out of the shared folder going forward. Its remaining item, labelled eval datasets (doc 06 section 7), is reassigned to Gemini/agy per the owner.
+- Stopping-point checks: TypeScript compile and targeted Python Ruff/strict mypy pass (15 new wiring source files). Earlier this pass, 32 SQL assertions passed before the owner's test deferral. Full Python/JS/E2E/recovery/concurrency suites were not rerun after the new wiring. Engine image build and local native/Compose health passed. Terraform schema check passed before the later foundation-phase changes; saved cloud plan/apply did not happen.
+- Resumption checks: lint and typecheck passed; 19 unit tests and 2 Chromium E2E tests passed, including a production fixture build. Production bootstrap connectivity was rerun: PostHog still reports permission denied; other applicable probes pass and agent provisioning remains pending. No inference credit balance was tested.
+- `uv sync --frozen`; `uv run pytest`: **286 passed**; Ruff passed; `uv run mypy engine`: 43 source files clean.
+- `pnpm lint`, `pnpm typecheck`, `pnpm test:env`: passed (**19 tests**, including Windows ACL regression).
+- `pnpm test:secret-hook`: synthetic secret rejected, clean index accepted; `pnpm secrets:history`: passed.
+- PostHog's previous 403 is resolved: both local and production bootstrap read-only checks pass after private key synchronization. Production provisioning remains pending.
+- Final combined engine validation after billing merge: **428 tests pass**, Ruff passes, strict mypy passes for **53 source files**. The working code is committed; no learning/billing logic was rewritten or wired ahead of its milestone.
+- Latest TypeScript validation: lint, typecheck and **24 unit tests** pass. Python transport: **25 tests**, Ruff and strict mypy pass; existing baseline's **396 tests** passed after merge. These checks do not exercise a production nonce store or HTTP adapter.
+- `pnpm verify` now exists (see above). No gate/deployment/rollback/queue-recovery completion is claimed.
 
 ## Session log
-| Date | Summary | Checklist items closed |
-|---|---|---|
-| 2026-09-27 | First-session plan/triage, tool inventory, contract-conflict register; awaiting required plan approval | 0 implemented; 176 explicitly deferred under doc09 |
+
+| Date       | Summary                                                                                                                                                                                                                          | Checklist items closed                                           |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| 2026-09-28 | Claude (later): first production deploy (two attempts, two script bugs fixed), ADR-0022 `/health`, M1 contract package, job-recovery integration test                                                                            | 0 (M0 gate items still open)                                     |
+| 2026-09-28 | Claude: committed M0 tree; engine Sentry + release wiring; verify/merge-guard/nightly/rehearse/deploy/rollback scripts; CA-in-image fix; job retention + DLQ alerting; production role/settings scripts; ADR-0021; owner runbook | 0 (nothing production-verified); M0 incomplete                   |
+| 2026-09-28 | Engine DB/HTTP/jobs/wake/batch/Compose wiring; six local migrations; 32 SQL assertions before testing deferral; ADRs/inventory/Terraform draft; cloud billing and sandbox blockers; owner requested stopping point               | 0 additional verified closures; M0 incomplete                    |
+| 2026-09-27 | Confirmed PostHog fix, committed web slice, merged engine references/prompts, implemented cross-runtime signed transport foundation; diagnosed Vector Docker connection                                                          | 0 additional; transport persistence/HTTP and M0 gate remain open |
+| 2026-09-27 | Resumed web foundation, verified production fixture build/browser tests, isolated unit tests from operator env files, reran production connectivity                                                                              | 0 additional; broader M0 obligations remain open                 |
+| 2026-09-27 | First-session plan/triage and conflict register, then owner approval                                                                                                                                                             | 0 implemented; 176 deferred under doc09                          |
+| 2026-09-27 | Engine merge, bootstrap fixes, config/helpers, real service checks, local Supabase and tested secret hook                                                                                                                        | 1; M0 remains in progress                                        |
